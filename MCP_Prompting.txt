@@ -1,0 +1,47 @@
+1. Can you describe me what the data model is all about?
+2. Calendar Table
+	Create a Power BI calendar table in DAX.
+
+	Requirements:
+	The calendar must start at the minimum date of the fact table and end at the maximum date of the fact table.
+	Use the all date columns from the table 'FactTable' as the reference for MIN and MAX.
+	Generate a continuous date range without gaps.
+
+	Include the following columns:
+	Date
+	Year
+	Month Number
+	Month Name
+	Month Year (for example Jan 2024)
+	Start of Month
+	End of Month
+	Year Month Sort (YYYYMM)
+	Quarter
+	Week Number
+	Day Name
+	Day of Week Number (Monday = 1)
+	Ensure month and weekday names are formatted for business reporting and are easy to read.
+
+3. Connect the Calendar table to the fact tables in the model.
+4. Connect all the dimension tables in the model to the fact table by using a star schema where possible. Do not create any relationships between dimensions unless you can detect a hierarchy and you need a snowflake schema. Also avoid many to many relationships. Please also add the Key column to the tables in the table properties.
+5. Set default summarizations. Key Columns should never be summarized.
+6. Hide foreign keys.
+7. Chek if Auto Date/Time is turned off in the model.
+8. Check my data model for inconsistencies and especially for relationships with fitler direction both. If you find both please correct it to single by ensuring the filter direction is from dimension to fact table. Please also make sure that the columns that are uses in one relationship have the same data type.
+9. Check if all the key columns in the dimension tables have unique values.
+10. Make sure that all the Table names are short, clearly reflect the business entity they represent, use singular nouns, and follow a consistent naming convention across the model.
+11. Add descriptions with 2-3 sententences to all the tables by using business terms and natural language. 
+
+12. Make sure that all Column names are clear, consistent, business-friendly, and descriptive enough to understand the field’s meaning without needing additional explanation.
+13. Add a description to each column that explain the business meaning of the column by using natural language. 
+
+14. Suggest me measures that I could create to analyse the data.
+15. Add caluclation group for time intelligence.
+16. Create them by also using the time intelligence calculation group (i.e. Calculate([1_Sum Profit],'Time Intelligence'[Calculation group column] = "YOY△ %")) to make sure that I can make comparisons across all periods. Please put all Measures in a table named _Measures.
+17. Add format strings to all measures.
+18. Add a data categopry to measures and columns where necessary i.e. Country, City, WebURL, ImageURL, Latitude/Longitude.
+19. Move them to display foldery ba categorizing them by Analytics areas.
+20. Add measure descriptions using business terms and natural language to the measures making sure that the business logic is exlained as well as any filters, assumptions or context.
+
+21. Remove columns that are not needed for analysis.
+22. Create a tabular Measure Catalog with all the measures. The catalog should contain the measure name, the DAX Expression, the fromat string and the description.
