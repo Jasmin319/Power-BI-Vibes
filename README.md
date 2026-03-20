@@ -43,8 +43,7 @@ Topics you can find here:
 👉 [Open MCP folder](./MCP)
 
 ---
-
-### 📊 Calculation Patterns
+### Power BI Tipps & Tricks
 
 #### Calculation Groups
 - Dynamic KPI cards and matrices  
@@ -52,6 +51,14 @@ Topics you can find here:
 - Reducing measure complexity  
 
 👉 [Open Calculation Groups](./Calculation%20Groups)
+
+#### No More Empty Slicers
+- Hiding slicer values with no matching data  
+- Avoiding risky bidirectional relationships  
+- Improving report usability and data accuracy  
+- Keeping models clean and well-structured  
+
+👉 [Open No Empty Slicers](./No%20more%20empty%20Slicers)
 
 ---
 
