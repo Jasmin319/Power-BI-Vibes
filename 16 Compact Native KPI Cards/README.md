@@ -1,6 +1,6 @@
 ![Thumbnail](./Pictures/16-KP-Cards-Native-Visuals.png)
 
-# KPI Cards in Power BI (Native Visuals)
+# 16 KPI Cards in Power BI (Native Visuals)
 
 In this tutorial, we challenge the idea that Tableau is superior to Power BI for design.
 
