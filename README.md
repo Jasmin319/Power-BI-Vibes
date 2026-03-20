@@ -94,13 +94,22 @@ Topics you can find here:
 
 👉 [Open KPI Line Charts](./KPI%20Cards%20Line%20Charts)
 
-#### KPI Cards with Small Multiples (IBCS Style)
-- Visualizing KPI deviations using small multiples  
-- Applying IBCS-style design principles  
-- Using error bars for structured comparisons  
-- Fully native solution (no SVGs)  
+#### KPI Cards with Small Multiples (Design System)
 
-👉 [Open KPI Small Multiples](./KPI%20Cards%20Small%20Multiples%20V01)
+**V01 – IBCS Structure & Deviations**
+- Small multiples for KPI comparison  
+- Error bars for deviation visualization  
+- Structured and standardized KPI layout  
+
+👉 [Open V01](./KPI%20Cards%20Small%20Multiples%20V01)
+
+**V02 – Advanced Formatting & Dynamic Styling**
+- Conditional formatting for headers  
+- Dynamic titles based on data  
+- Accent bars and layout improvements  
+- Enhanced visual hierarchy  
+
+👉 [Open V02](./KPI%20Cards%20Small%20Multiples%20V02)
 
 #### New Card Visual (Power BI)
 - Understanding the new Card Visual  
