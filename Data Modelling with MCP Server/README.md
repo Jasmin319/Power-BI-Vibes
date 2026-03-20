@@ -52,7 +52,7 @@ Use this prompt to recreate the workflow shown in the video:
 
 Use this .pbix to recreate the workflow shown in the video:
 
-➡️ [View prompt](./MCP-Northwind-Traders.pbix)
+➡️ [View file](./MCP-Northwind-Traders.pbix)
 
 ---
 
