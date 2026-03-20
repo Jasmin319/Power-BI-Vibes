@@ -10,7 +10,7 @@ By recreating Andy Kriebel’s well-known KPI cards using only native Power BI v
 
 ## 🎥 Watch the tutorial for this Card
 
-![KPI_Card](./Sample-KPI-Card.png)
+![KPI_Card](./Pictures/Sample-KPI-Card.png)
 
 [Recreating KPI Cards in Power BI](https://youtu.be/wHsDSPia0Nk)
 
