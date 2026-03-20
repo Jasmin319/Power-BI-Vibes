@@ -1,4 +1,4 @@
-![Thumbnail](./Pictures/16-KP-CardI-Native-Visuals.png)
+![Thumbnail](./Pictures/16-KP-Cards-Native-Visuals.png)
 
 # KPI Cards in Power BI (Native Visuals)
 
