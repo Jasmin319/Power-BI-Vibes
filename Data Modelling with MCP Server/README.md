@@ -48,6 +48,12 @@ Use this prompt to recreate the workflow shown in the video:
 
 ➡️ [View prompt](./MCP-Used-Prompts.txt)
 
+### PBIX
+
+Use this .pbix to recreate the workflow shown in the video:
+
+➡️ [View prompt](./MCP-Northwind-Traders.pbix)
+
 ---
 
 ## 🎯 Who this is for
