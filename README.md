@@ -183,19 +183,6 @@ Topics you can find here:
 
 ---
 
-## Example use cases
-
-Across the different folders, you’ll find solutions for:
-
-- simplifying complex Power BI models  
-- improving dashboard design and usability  
-- automating repetitive BI workflows  
-- standardizing reporting approaches  
-- improving data quality and trust  
-- combining AI with Power BI development  
-
----
-
 ## How to use this repository
 
 1. Start with a topic that matches your problem  
