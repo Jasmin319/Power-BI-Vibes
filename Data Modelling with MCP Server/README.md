@@ -91,5 +91,5 @@ You can build on this approach by:
 📝 LinkedIn Article (DE):  
 [Data Therapy – MCP Server Power BI](https://www.linkedin.com/newsletters/data-therapy-regain-clarity-7337435930955321344/)  
 
-🌐 Website Article:  
+🌐 Website Article (DE):  
 [MCP Server for Power BI](https://www.jasminsimader.com/data-therapy/mcp-server-power-bi/)
