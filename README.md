@@ -1,3 +1,4 @@
+![Banner](./Z-Assets/Banner.png)
 # Power BI Vibes – Patterns, Design & AI Workflows
 
 A curated collection of Power BI solutions, design patterns, and AI-supported workflows.
