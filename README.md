@@ -92,6 +92,18 @@ Topics you can find here:
 
 ---
 
+### 📊 Dashboard Projects
+
+#### LinkedIn Performance Dashboard
+- Analyze post performance and engagement  
+- Track trends and growth over time  
+- Turn LinkedIn data into actionable insights  
+- Build a personal analytics dashboard  
+
+👉 [Open LinkedIn Dashboard](./LinkedIn%20Dashboard)
+
+---
+
 ## Example use cases
 
 Across the different folders, you’ll find solutions for:
