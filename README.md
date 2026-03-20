@@ -71,6 +71,13 @@ Topics you can find here:
 
 👉 [Open KPI Cards](./KPI-Cards)
 
+#### Compact KPI Line Chart Cards
+- KPI cards with embedded line charts (100% native)  
+- No SVGs, clean and maintainable approach  
+- Compact layouts for high-density dashboards  
+
+👉 [Open KPI Line Charts](./KPI%20Cards%20Line%20Charts)
+
 ---
 
 ### 🧪 Data Health & Quality
