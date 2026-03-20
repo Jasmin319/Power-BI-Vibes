@@ -133,6 +133,14 @@ Topics you can find here:
 
 👉 [Open Finance Budget](./Finance%20Budget)
 
+#### Airport Delays Dashboard (FP20 Challenge 23)
+- Analyze airline and carrier performance  
+- Work with a real dataset  
+- Build a beginner-friendly dashboard  
+- Turn raw data into clear insights  
+
+👉 [Open Airport Delays Dashboard](./Dashboard%20Airport%20Delays)
+
 ---
 
 ## Example use cases
