@@ -49,12 +49,6 @@ Explore the full dashboard shown in the video:
 
 ---
 
-## 🖼️ Preview
-
-![Data Quality Dashboard](./Easter-Edition-Data-Quality-Dashboard.png)
-
----
-
 ## 🎯 Who this is for
 
 - Power BI developers working with real-world data  
