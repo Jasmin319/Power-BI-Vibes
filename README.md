@@ -6,8 +6,8 @@ A curated collection of Power BI solutions, design patterns and Dashboards.
 
 This repository brings together practical examples that help you build cleaner models, better visuals, and more scalable BI solutions.
 
-If you are looking for AI and Copilot Content related to Power BI you can find it here
-👉 [Copilot & POwer BI Use Cases](https://github.com/Jasmin319/powerbi-copilot-usecases)
+If you are looking for AI and Copilot Content related to Power BI you can find it here  
+👉 [Copilot & Power BI Use Cases](https://github.com/Jasmin319/powerbi-copilot-usecases)
 
 ---
 
