@@ -78,6 +78,13 @@ Topics you can find here:
 
 👉 [Open KPI Line Charts](./KPI%20Cards%20Line%20Charts)
 
+#### New Card Visual (Power BI)
+- Understanding the new Card Visual  
+- Customizing layout and formatting  
+- Designing clear and modern KPI visuals  
+
+👉 [Open New Card Visual](./New%20Card%20Visual)
+
 ---
 
 ### 🧪 Data Health & Quality
