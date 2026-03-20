@@ -125,6 +125,14 @@ Topics you can find here:
 
 👉 [Open LinkedIn Dashboard](./LinkedIn%20Dashboard)
 
+#### Finance Budget Overview (Drillthrough)
+- Create a high-level budget status page  
+- Use drillthrough buttons for navigation  
+- Build fast and reusable reporting patterns  
+- Turn simple datasets into professional dashboards  
+
+👉 [Open Finance Budget](./Finance%20Budget)
+
 ---
 
 ## Example use cases
