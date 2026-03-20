@@ -43,7 +43,7 @@ Topics you can find here:
 👉 [Open MCP folder](./MCP)
 
 ---
-### Power BI Tipps & Tricks
+### 📶 Power BI Tipps & Tricks
 
 #### Calculation Groups
 - Dynamic KPI cards and matrices  
