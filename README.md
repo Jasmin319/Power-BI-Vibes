@@ -68,6 +68,14 @@ Topics you can find here:
 
 👉 [Open Stacked Bar Charts](./Turn%20On%20OFF%20Stacked%20Bar%20Charts)
 
+#### Heatmaps (Matrix + Charts + UX)
+- Combine matrix, bar, and column charts  
+- Build dynamic and insightful heatmaps  
+- Improve usability with clear filter context  
+- Enhance visual clarity and interaction  
+
+👉 [Open Heatmaps](./Heatmaps%20in%20Power%20BI)
+
 ---
 
 ### 🎨 KPI Cards
