@@ -120,6 +120,18 @@ Topics you can find here:
 
 ---
 
+### 🎨 Visualization Experiments
+
+#### Experimental Visual Patterns
+- Exploring alternative chart designs  
+- Error bars for comparisons and deltas  
+- Slope charts to visualize change over time  
+- Improving clarity and visual storytelling  
+
+👉 [Open Visualization Experiments](./Visualization%20Experiments)
+
+---
+
 ### 🧪 Data Health & Quality
 
 #### Data Health Dashboard (Easter Edition)
