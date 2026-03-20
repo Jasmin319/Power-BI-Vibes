@@ -12,15 +12,15 @@ By recreating Andy Kriebel’s well-known KPI cards using only native Power BI v
 
 ![KPI_Card](./Pictures/Sample-KPI-Card.png)
 
-[Recreating KPI Cards in Power BI](https://youtu.be/wHsDSPia0Nk)
+📹 [Recreating KPI Cards in Power BI](https://youtu.be/wHsDSPia0Nk)
 
 ---
 
 ## Get the full file with all 16 KPI Cards
 
-![KPI Cards](./16-KPI-Cards-Native-Visuals.png)
+![KPI Cards](./Pictures/16-KP-Cards-Native-Visuals.png)
 
-[16 KPI Cards in Power BI](./16-KPI-Cards-Native-Visuals.pbix)
+📶 [16 KPI Cards in Power BI](./16-KPI-Cards-Native-Visuals.pbix)
 
 ---
 
