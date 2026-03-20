@@ -1,4 +1,5 @@
 ![Banner](./Z-Assets/Banner.png)
+
 # Power BI Vibes – Patterns, Design & AI Workflows
 
 A curated collection of Power BI solutions, design patterns, and AI-supported workflows.
@@ -21,8 +22,8 @@ This repository focuses on solving these problems with:
 - structured modeling techniques  
 - strong visual design  
 - reusable patterns  
-- knowledge on DAX functions
-- dashbaord tutorials
+- knowledge of DAX functions  
+- practical dashboard tutorials  
 
 ---
 
@@ -30,12 +31,14 @@ This repository focuses on solving these problems with:
 
 Topics you can find here:
 
+---
+
 ### ⚙️ Data Modeling & Automation
 
 #### MCP Server for Power BI
-- MCP Server for Power BI  
 - Automating model setup, relationships, and data health checks  
 - Using AI to enforce best practices  
+- Improving model structure and consistency  
 
 👉 [Open MCP folder](./MCP)
 
@@ -44,7 +47,7 @@ Topics you can find here:
 ### 📊 Calculation Patterns
 
 #### Calculation Groups
-- Calculation Groups for dynamic KPI cards and matrices  
+- Dynamic KPI cards and matrices  
 - Dynamic format strings (€ vs %)  
 - Reducing measure complexity  
 
@@ -63,6 +66,18 @@ Topics you can find here:
 
 ---
 
+### 🧪 Data Health & Quality
+
+#### Data Health Dashboard (Easter Edition)
+- Identifying missing, inconsistent, and duplicate data  
+- Visualizing data quality issues in Power BI  
+- Using DAX and conditional formatting to flag anomalies  
+- Building structured data quality monitoring dashboards  
+
+👉 [Open Data Health Dashboard](./Data%20Health%20Dashboard%20Easter%20Bunnies)
+
+---
+
 ## Example use cases
 
 Across the different folders, you’ll find solutions for:
@@ -71,6 +86,7 @@ Across the different folders, you’ll find solutions for:
 - improving dashboard design and usability  
 - automating repetitive BI workflows  
 - standardizing reporting approaches  
+- improving data quality and trust  
 - combining AI with Power BI development  
 
 ---
