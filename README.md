@@ -31,6 +31,8 @@ This repository focuses on solving these problems with:
 Topics you can find here:
 
 ### ⚙️ Data Modeling & Automation
+
+#### MCP Server for Power BI
 - MCP Server for Power BI  
 - Automating model setup, relationships, and data health checks  
 - Using AI to enforce best practices  
@@ -40,6 +42,8 @@ Topics you can find here:
 ---
 
 ### 📊 Calculation Patterns
+
+#### Calculation Groups
 - Calculation Groups for dynamic KPI cards and matrices  
 - Dynamic format strings (€ vs %)  
 - Reducing measure complexity  
@@ -48,7 +52,9 @@ Topics you can find here:
 
 ---
 
-### 🎨 Design & KPI Cards
+### 🎨 KPI Cards
+
+#### 16 Native KPI Cards
 - Recreating advanced KPI cards using native visuals  
 - Clean and structured dashboard design  
 - Improving usability and readability  
