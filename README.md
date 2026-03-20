@@ -21,13 +21,14 @@ This repository focuses on solving these problems with:
 - structured modeling techniques  
 - strong visual design  
 - reusable patterns  
-- AI-supported workflows  
+- knowledge on DAX functions
+- dashbaord tutorials
 
 ---
 
 ## What you'll find here
 
-This repo is organized into focused topics:
+Topics you can find here:
 
 ### ⚙️ Data Modeling & Automation
 - MCP Server for Power BI  
