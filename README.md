@@ -123,5 +123,6 @@ If you use this work, attribution is appreciated:
 ## 🔗 Related content
 
 🎥 YouTube: [Power BI with AI Vibes](https://www.youtube.com/@BIVibes-JasminSimader)  
+🏠 Website: [Jasmin Simader](https://www.jasminsimader.com/)  
 👩🏻‍💻 LinkedIn: [Jasmin Simader](https://www.linkedin.com/in/jasmin-simader)  
 📝 Blog / Medium: [Medium Blog](https://medium.com/@jasminsimader)
