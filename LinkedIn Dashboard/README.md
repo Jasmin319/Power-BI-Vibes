@@ -93,27 +93,6 @@ You can build on this approach by:
 
 ---
 
-## 📄 License & Usage
-
-This repository is licensed under the MIT License.
-
-You are free to use, modify, and share the files and concepts.
-
-Created by Jasmin Simader (Microsoft MVP)
-
-If you use this work, attribution is appreciated:
-- Link to this repository  
-- Mention the original source  
-- Credit the author  
-
----
-
-### Note on usage
-
-The dashboard structure can be adapted to different data sources and personal use cases.
-
----
-
 ## 🔗 Related content
 
 🎥 YouTube: [Power BI with AI Vibes](https://www.youtube.com/@BIVibes-JasminSimader)  
