@@ -118,6 +118,14 @@ Topics you can find here:
 
 👉 [Open New Card Visual](./New%20Card%20Visual)
 
+#### Actual vs Previous Year Comparison (9 Techniques)
+- 9 different comparison patterns  
+- Column charts and error bars  
+- Choosing the right visual for the context  
+- Clear and structured year-over-year analysis  
+
+👉 [Open Comparison Patterns](./9%20Powerful%20Ways%20to%20Compare%20Actual%20vs.%20Previous%20Year)
+
 ---
 
 ### 🎨 Visualization Experiments
