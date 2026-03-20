@@ -60,6 +60,14 @@ Topics you can find here:
 
 👉 [Open No Empty Slicers](./No%20more%20empty%20Slicers)
 
+#### Improve Stacked Bar Charts
+- Make stacked charts more readable  
+- Avoid overlapping data labels  
+- No bookmarks required  
+- Cleaner and more user-friendly visuals  
+
+👉 [Open Stacked Bar Charts](./Turn%20On%20OFF%20Stacked%20Bar%20Charts)
+
 ---
 
 ### 🎨 KPI Cards
