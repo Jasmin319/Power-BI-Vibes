@@ -34,6 +34,21 @@ This repository focuses on solving these problems with:
 
 Topics you can find here:
 
+### ⚙️ Data Modeling & Automation
+
+#### MCP Server for Power BI
+
+- Automating model setup, relationships, and table creation  
+- Detecting schema issues and improving model consistency  
+- Enforcing best practices through structured prompts  
+- Enhancing data health and security with AI-supported workflows  
+
+This project shows how to use the MCP Server to move from manual modeling to a more structured and scalable approach.
+
+👉 [Open MCP folder](https://github.com/Jasmin319/Power-BI-Vibes/tree/1b73b2ff96da620162109464e445eb9ffec9231f/Data%20Modelling%20with%20MCP%20Server)
+
+---
+
 ### 📶 Power BI Tipps & Tricks
 
 #### Calculation Groups
