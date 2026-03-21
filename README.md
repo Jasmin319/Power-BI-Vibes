@@ -34,18 +34,6 @@ This repository focuses on solving these problems with:
 
 Topics you can find here:
 
----
-
-### ⚙️ Data Modeling & Automation
-
-#### MCP Server for Power BI
-- Automating model setup, relationships, and data health checks  
-- Using AI to enforce best practices  
-- Improving model structure and consistency  
-
-👉 [Open MCP folder](./MCP)
-
----
 ### 📶 Power BI Tipps & Tricks
 
 #### Calculation Groups
