@@ -1,6 +1,6 @@
 ![Banner](./Z-Assets/Banner.png)
 
-# Power BI with AI Vibes – Patterns, Design and Dashboards
+# Power BI with AI Vibes – DAX Expressions, Dashboards & Data Health
 
 A curated collection of Power BI solutions, design patterns and Dashboards.
 
