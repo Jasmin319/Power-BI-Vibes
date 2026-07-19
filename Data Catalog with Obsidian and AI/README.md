@@ -1,4 +1,4 @@
-![Thumbnail](https://github.com/Jasmin319/Power-BI-Vibes/blob/main/Data%20Catalog%20with%20Obsidian%20and%20AI/Thumbnail%20Data%20Catalog%20Obsidian.png))
+![Thumbnail](https://github.com/Jasmin319/Power-BI-Vibes/blob/main/Data%20Catalog%20with%20Obsidian%20and%20AI/Thumbnail%20Data%20Catalog%20Obsidian.png)
 
 # Build a Data Catalog for Power BI with Obsidian and AI
 
