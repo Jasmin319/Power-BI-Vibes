@@ -10,34 +10,35 @@ Instead of manually documenting your semantic model, you'll use AI to generate m
 
 ## 🎥 Watch the tutorial
 
-[Build a Data Catalog with Obsidian and AI](https://youtube.com/your-video-link)
+[Build a Data Catalog with Obsidian and AI](https://youtu.be/YOUR_VIDEO_LINK)
 
 ---
 
 ## 🧠 What this project does
 
-This project turns a Power BI semantic model into a structured data catalog.
+This project transforms a Power BI semantic model into a structured, AI-generated data catalog.
 
 It allows you to:
 
 * document tables and measures automatically
 * generate business-friendly markdown documentation
-* visualize relationships and dependencies
-* navigate your semantic model through clickable links
-* explore data lineage using Obsidian graphs
+* create clickable documentation between related objects
+* visualize table and measure dependencies
+* explore your semantic model through an interactive knowledge graph
 
 ---
 
 ## 🚀 What you'll learn
 
-In this tutorial, you'll see:
+In this tutorial, you'll see how to:
 
-* how to set up Obsidian for Power BI documentation
-* how to use GitHub Copilot to generate documentation from TMDL files
-* how to create reusable documentation templates
-* how to connect tables and measures with clickable links
-* how to visualize model dependencies in Obsidian
-* how to create a reusable AI workflow for future PBIP projects
+* install and configure Obsidian
+* organize a Power BI documentation project
+* use GitHub Copilot to generate documentation from TMDL files
+* create reusable documentation templates
+* connect tables and measures with clickable links
+* visualize data lineage in Obsidian
+* build a reusable AI workflow for future PBIP projects
 
 ---
 
@@ -45,51 +46,54 @@ In this tutorial, you'll see:
 
 ### Sample Project
 
-Use the sample PBIP project to follow along:
+Use the complete sample project to follow along:
 
-➡️ *(Add your PBIP project here)*
+➡️ https://github.com/Jasmin319/Power-BI-Vibes/tree/main/Data%20Catalog%20with%20Obsidian%20and%20AI/Power%20BI
 
 ---
 
-### Documentation Templates
+### What's included
 
-The repository includes:
+The repository contains:
 
+* Power BI PBIP project
 * Table documentation template
 * Measure documentation template
-* Agent instructions for AI
-* Folder structure for the data catalog
+* AI agent instructions
+* Data catalog folder structure
+* Example markdown documentation
 
 ---
 
 ## 🎯 Who this is for
 
-* Power BI developers working with PBIP projects
+* Power BI developers
 * BI analysts documenting semantic models
-* Data professionals building data catalogs
+* Microsoft Fabric professionals
+* Data engineers working with PBIP projects
 * Anyone interested in AI-assisted documentation
 
 ---
 
 ## 💡 Use cases
 
-* Creating data catalogs automatically
-* Documenting semantic models
+* Creating AI-generated data catalogs
+* Documenting Power BI semantic models
 * Visualizing data lineage
-* Understanding table and measure dependencies
-* Improving Power BI project documentation
+* Understanding dependencies between tables and measures
 * Creating reusable documentation workflows
+* Improving project documentation for teams
 
 ---
 
 ## 🛠️ How to use
 
-1. Install Obsidian
-2. Open the sample PBIP project
-3. Open the folder in Visual Studio Code
-4. Use GitHub Copilot to generate documentation
-5. Open the folder as an Obsidian vault
-6. Explore the generated knowledge graph
+1. Clone or download the sample project.
+2. Open the PBIP project in Power BI Desktop.
+3. Open the project folder in Visual Studio Code.
+4. Use GitHub Copilot to generate the documentation.
+5. Open the Data Catalog folder as an Obsidian vault.
+6. Explore the generated documentation and knowledge graph.
 
 ---
 
@@ -99,10 +103,10 @@ You can build on this approach by:
 
 * documenting calculation groups
 * generating business glossaries automatically
-* adding column-level documentation
+* documenting columns and relationships in more detail
 * connecting multiple semantic models
-* integrating GitHub version control
-* customizing AI prompts for your organization
+* integrating GitHub for version control
+* customizing AI prompts for your own documentation standards
 
 ---
 
