@@ -48,7 +48,7 @@ In this tutorial, you'll see how to:
 
 Use the complete sample project to follow along:
 
-➡️ https://github.com/Jasmin319/Power-BI-Vibes/tree/main/Data%20Catalog%20with%20Obsidian%20and%20AI/Power%20BI
+➡️ [Sample Files](https://github.com/Jasmin319/Power-BI-Vibes/tree/main/Data%20Catalog%20with%20Obsidian%20and%20AI/Power%20BI)
 
 ---
 
