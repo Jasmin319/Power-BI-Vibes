@@ -10,7 +10,7 @@ Instead of manually documenting your semantic model, you'll use AI to generate m
 
 ## 🎥 Watch the tutorial
 
-[Build a Data Catalog with Obsidian and AI](https://youtu.be/YOUR_VIDEO_LINK)
+[Build a Data Catalog with Obsidian and AI](https://youtu.be/nqX3Ta-nq44)
 
 ---
 
