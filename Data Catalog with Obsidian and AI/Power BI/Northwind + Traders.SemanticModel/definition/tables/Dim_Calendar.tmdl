@@ -1,0 +1,85 @@
+/// A comprehensive date dimension spanning all order activity from July 2023 to June 2025, with calculated attributes for year, month, quarter, week, and day of week. Enables time-based analysis and supports time intelligence functions for trend analysis and year-over-year comparisons.
+table Dim_Calendar
+	lineageTag: 25046128-70c4-4f69-935a-dddc51c58913
+
+	/// The calendar date - the primary key for time-based analysis
+	column Date
+		isUnique
+		lineageTag: c347ebda-942a-45cb-adcf-43617ccf8486
+		summarizeBy: none
+		sourceColumn: [Date]
+
+	/// The four-digit year of the date for annual grouping and analysis
+	column Year
+		lineageTag: 54692a14-0884-4207-829b-de92ecbb0b54
+		summarizeBy: none
+		sourceColumn: [Year]
+
+	/// The month as a number from 1 (January) to 12 (December)
+	column 'Month Number'
+		lineageTag: 8a43d9f8-3aa8-4975-a8be-0406a113ec59
+		summarizeBy: none
+		sourceColumn: [Month Number]
+
+	/// The full name of the month for user-friendly report displays
+	column 'Month Name'
+		lineageTag: adcf5e5c-3bc1-4ccc-b46d-1d2a7feb1602
+		summarizeBy: none
+		sourceColumn: [Month Name]
+
+	/// The fiscal quarter designation (Q1, Q2, Q3, Q4) for quarterly analysis
+	column Quarter
+		lineageTag: 25e49ca1-1252-4f1d-8037-82cdb9957281
+		summarizeBy: none
+		sourceColumn: [Quarter]
+
+	/// The ISO week number of the year (1-53) for week-based reporting
+	column 'Week Number'
+		lineageTag: 59fccd31-6e2f-4789-bc33-efa61107ff4c
+		summarizeBy: none
+		sourceColumn: [Week Number]
+
+	column 'Month Start Date'
+		lineageTag: 3a228125-4a6f-4e38-8c50-39ea27be2bd7
+		isNameInferred
+		sourceColumn: [Month Start Date]
+
+	column 'Month End Date'
+		lineageTag: e0e6b040-7172-4891-b878-e0a906614a9b
+		isNameInferred
+		sourceColumn: [Month End Date]
+
+	column 'Day of Week'
+		lineageTag: 363361c9-acdd-4ca9-be74-aafdb9daf470
+		isNameInferred
+		sourceColumn: [Day of Week]
+
+	partition Calendar = calculated
+		mode: import
+		source = ```
+				VAR AllDates = 
+				    UNION(
+				        SELECTCOLUMNS('Fact_Order', "Date", 'Fact_Order'[Order Date]),
+				        SELECTCOLUMNS('Fact_Order', "Date", 'Fact_Order'[Required Delivery Date]),
+				        SELECTCOLUMNS('Fact_Order', "Date", 'Fact_Order'[Shipped Date])
+				    )
+				VAR MinDate = MINX(AllDates, [Date])
+				VAR MaxDate = MAXX(AllDates, [Date])
+				VAR BaseCalendar = CALENDAR(MinDate, MaxDate)
+				RETURN
+				GENERATE(
+				    BaseCalendar,
+				    VAR CurrentDate = [Date]
+				    RETURN ROW(
+				        "Year", YEAR(CurrentDate),
+				        "Month Number", MONTH(CurrentDate),
+				        "Month Name", FORMAT(CurrentDate, "MMMM"),
+				        "Month Start Date", DATE(YEAR(CurrentDate), MONTH(CurrentDate), 1),
+				        "Month End Date", EOMONTH(CurrentDate, 0),
+				        "Quarter", "Q" & QUARTER(CurrentDate),
+				        "Week Number", WEEKNUM(CurrentDate, 2),
+				        "Day of Week", FORMAT(CurrentDate, "dddd")
+				    )
+				)
+				```
+

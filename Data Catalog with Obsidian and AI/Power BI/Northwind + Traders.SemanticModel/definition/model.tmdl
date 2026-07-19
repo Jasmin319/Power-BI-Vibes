@@ -1,0 +1,29 @@
+model Model
+	culture: de-DE
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	discourageImplicitMeasures
+	sourceQueryCulture: en-US
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+annotation PBI_QueryOrder = ["categories LookUp","customers LookUp","employees LookUp","order_details LookUp","orders DATA","products LookUp","shippers LookUp"]
+
+annotation __PBI_TimeIntelligenceEnabled = 0
+
+annotation PBI_ProTooling = ["MCP-PBIModeling","DevMode"]
+
+ref table Dim_Category
+ref table Dim_Customer
+ref table Dim_Employee
+ref table Fact_OrderDetail
+ref table Fact_Order
+ref table Dim_Product
+ref table Dim_Shipper
+ref table Dim_Calendar
+ref table 'Time Intelligence'
+ref table _Measures
+ref table 'Measure Catalog'
+
+ref cultureInfo de-DE
+

@@ -1,0 +1,83 @@
+/// Master data for all customers including company name, contact information, and geographic location. This dimension enables analysis of sales performance by customer, geographic region, and contact hierarchy.
+table Dim_Customer
+	lineageTag: 951a36d3-d10e-4eeb-8958-21b14381c7a7
+
+	/// Unique identifier for each customer company
+	column 'Customer ID'
+		dataType: string
+		isUnique
+		lineageTag: 08ac9ff9-dd23-418e-a34d-22a30e4bc8be
+		summarizeBy: none
+		sourceColumn: customerID
+
+		annotation SummarizationSetBy = Automatic
+
+	/// The official registered name of the customer company
+	column 'Company Name'
+		dataType: string
+		lineageTag: 07c47b0e-0836-4566-b824-5b6d3412dcda
+		summarizeBy: none
+		sourceColumn: companyName
+
+		annotation SummarizationSetBy = Automatic
+
+	/// The name of the primary business contact person at the customer
+	column 'Contact Name'
+		dataType: string
+		lineageTag: 0e591101-fffd-468b-9167-be5c26d25166
+		summarizeBy: none
+		sourceColumn: contactName
+
+		annotation SummarizationSetBy = Automatic
+
+	/// The job title or position of the primary contact at the customer (e.g., Purchasing Manager)
+	column 'Contact Title'
+		dataType: string
+		lineageTag: f8827607-8dc6-4f70-bb31-f2de94c183ca
+		summarizeBy: none
+		sourceColumn: contactTitle
+
+		annotation SummarizationSetBy = Automatic
+
+	/// The city where the customer's primary business location is based
+	column City
+		dataType: string
+		lineageTag: f23a3dc3-ed03-4293-9e73-9694f01826c6
+		dataCategory: City
+		summarizeBy: none
+		sourceColumn: city
+
+		annotation SummarizationSetBy = Automatic
+
+	/// The country where the customer is located
+	column Country
+		dataType: string
+		lineageTag: c5f7d8ea-f619-42b0-94ad-3fb035aa5a1d
+		dataCategory: Country
+		summarizeBy: none
+		sourceColumn: country
+
+		annotation SummarizationSetBy = Automatic
+
+	/// The two-letter ISO 3166 country code for the customer's location
+	column 'Country Code' = UPPER(LEFT('Dim_Customer'[Country],3))
+		lineageTag: 73b06c9b-b1d1-4409-96eb-76fb9c52a8e7
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'customers LookUp-14e0de13-bb65-48b8-bc51-55b4deba4346' = m
+		mode: import
+		source =
+				let
+				    Quelle = Csv.Document(File.Contents("C:\Users\simader\Documents\Jasmin\Data Analytics\Sample Data\Northwind+Traders\Northwind Traders\customers.csv"),[Delimiter=",", Columns=6, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+				    #"Geänderter Typ" = Table.TransformColumnTypes(Quelle,{{"Column1", type text}, {"Column2", type text}, {"Column3", type text}, {"Column4", type text}, {"Column5", type text}, {"Column6", type text}}),
+				    #"Höher gestufte Header" = Table.PromoteHeaders(#"Geänderter Typ", [PromoteAllScalars=true]),
+				    #"Geänderter Typ1" = Table.TransformColumnTypes(#"Höher gestufte Header",{{"customerID", type text}, {"companyName", type text}, {"contactName", type text}, {"contactTitle", type text}, {"city", type text}, {"country", type text}})
+				in
+				    #"Geänderter Typ1"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

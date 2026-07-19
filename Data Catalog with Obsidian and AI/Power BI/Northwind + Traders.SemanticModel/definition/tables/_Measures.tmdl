@@ -1,0 +1,445 @@
+table _Measures
+	lineageTag: 79a0eadc-efaa-4cff-a9a8-875007cbb17a
+
+	/// Total net sales for all order lines, calculated as Unit Price × Quantity Ordered × (1 - Discount Rate). Uses line item detail and reflects current filter context.
+	measure 'Total Sales' = SUMX(Fact_OrderDetail, Fact_OrderDetail[Unit Price] * Fact_OrderDetail[Quantity Ordered] * (1 - Fact_OrderDetail[Discount Rate]))
+		formatString: $#,0.00
+		displayFolder: Sales
+		lineageTag: 2750920b-612d-41fd-838f-5555d36941c7
+
+	/// Total units sold, calculated as the sum of Quantity Ordered from all order lines in the current filter context.
+	measure 'Total Quantity' = SUM(Fact_OrderDetail[Quantity Ordered])
+		formatString: 0
+		displayFolder: Orders
+		lineageTag: 25be1c13-842f-4cd4-aefc-7e76b603c56f
+
+	/// Number of distinct orders based on Order ID in the current filter context.
+	measure 'Order Count' = DISTINCTCOUNT(Fact_Order[Order ID])
+		formatString: 0
+		displayFolder: Orders
+		lineageTag: 08ed4e9b-4e62-43c5-a36d-d524bab1ad00
+
+	/// Average sales per order, calculated as Total Sales divided by Order Count for the current filter context.
+	measure 'Average Order Value' = DIVIDE([Total Sales], [Order Count])
+		formatString: $#,0.00
+		displayFolder: Sales
+		lineageTag: 0392f8f7-b13f-4038-bde8-877b71c5f16b
+
+	/// Total discount value given, calculated as Unit Price × Quantity Ordered × Discount Rate across all order lines.
+	measure 'Total Discount Amount' = SUMX(Fact_OrderDetail, Fact_OrderDetail[Unit Price] * Fact_OrderDetail[Quantity Ordered] * Fact_OrderDetail[Discount Rate])
+		formatString: $#,0.00
+		displayFolder: Discounts
+		lineageTag: 163a1d94-6009-4683-beee-95d5f8fed059
+
+	/// Average line-item discount rate (0-1 scale) across the current filter context.
+	measure 'Average Discount Rate' = AVERAGE(Fact_OrderDetail[Discount Rate])
+		formatString: 0.00%
+		displayFolder: Discounts
+		lineageTag: 65df95c6-a5d6-4a9b-9ed0-7857204cb70d
+
+	/// Count of orders with Days Late > 0 in the current filter context.
+	measure 'Late Orders Count' = COUNTROWS(FILTER(Fact_Order, Fact_Order[Days Late] > 0))
+		formatString: 0
+		displayFolder: Shipping
+		lineageTag: e84a7de4-1557-4b44-bc34-95375cfa9ad1
+
+	/// Percent of orders that were late, calculated as Late Orders Count divided by Order Count.
+	measure 'Late Orders %' = DIVIDE([Late Orders Count], [Order Count])
+		formatString: 0.00%
+		displayFolder: Shipping
+		lineageTag: d2a78abe-88d7-4cec-b700-e8fc349f726b
+
+	/// Average number of days from order date to shipped date, using Days to Ship in the current filter context.
+	measure 'Average Days to Ship' = AVERAGE(Fact_Order[Days to Ship])
+		formatString: 0
+		displayFolder: Shipping
+		lineageTag: 5af33b88-1548-4718-96b7-4f357f17e5b9
+
+	/// Total Sales for the current period. Applies Time Intelligence calculation item 'Current'.
+	measure 'Total Sales - Current' = CALCULATE([Total Sales], 'Time Intelligence'[Time Intelligence] = "Current")
+		formatString: $#,0.00
+		displayFolder: Sales
+		lineageTag: 16c56941-919c-486d-8079-23caff529649
+
+	/// Total Sales for the same period in the prior year. Applies Time Intelligence calculation item 'Prior Year'.
+	measure 'Total Sales - Prior Year' = CALCULATE([Total Sales], 'Time Intelligence'[Time Intelligence] = "Prior Year")
+		formatString: $#,0.00
+		displayFolder: Sales
+		lineageTag: f7fe97a6-49da-4b60-974b-1e841e874fa3
+
+	/// Year-over-year change in Total Sales (current period minus prior year). Applies Time Intelligence calculation item 'YoY'.
+	measure 'Total Sales - YoY' = CALCULATE([Total Sales], 'Time Intelligence'[Time Intelligence] = "YoY")
+		formatString: $#,0.00
+		displayFolder: Sales
+		lineageTag: 504d00ba-7ec6-42f4-af0f-9c706fab8d51
+
+	/// Year-over-year percent change in Total Sales. Applies Time Intelligence calculation item 'YoY %'.
+	measure 'Total Sales - YoY %' = CALCULATE([Total Sales], 'Time Intelligence'[Time Intelligence] = "YoY %")
+		formatString: 0.00%
+		displayFolder: Sales
+		lineageTag: aa2b19f8-2f63-4a28-806e-53cf03a6e0e6
+
+	/// Total Sales year-to-date based on Dim_Calendar[Date]. Applies Time Intelligence calculation item 'YTD'.
+	measure 'Total Sales - YTD' = CALCULATE([Total Sales], 'Time Intelligence'[Time Intelligence] = "YTD")
+		formatString: $#,0.00
+		displayFolder: Sales
+		lineageTag: d28b1525-2a90-40cc-a296-5dd45ff316ff
+
+	/// Total Sales quarter-to-date based on Dim_Calendar[Date]. Applies Time Intelligence calculation item 'QTD'.
+	measure 'Total Sales - QTD' = CALCULATE([Total Sales], 'Time Intelligence'[Time Intelligence] = "QTD")
+		formatString: $#,0.00
+		displayFolder: Sales
+		lineageTag: 13bc3856-7b66-49c1-b87f-f672bcdd2e07
+
+	/// Total Sales month-to-date based on Dim_Calendar[Date]. Applies Time Intelligence calculation item 'MTD'.
+	measure 'Total Sales - MTD' = CALCULATE([Total Sales], 'Time Intelligence'[Time Intelligence] = "MTD")
+		formatString: $#,0.00
+		displayFolder: Sales
+		lineageTag: e0f13c5b-35c0-4ccd-b740-386dc34d9297
+
+	/// Total Quantity for the current period. Applies Time Intelligence calculation item 'Current'.
+	measure 'Total Quantity - Current' = CALCULATE([Total Quantity], 'Time Intelligence'[Time Intelligence] = "Current")
+		formatString: 0
+		displayFolder: Orders
+		lineageTag: 2df6e1f2-7820-4b1f-9b5e-9cb054124223
+
+	/// Total Quantity for the same period in the prior year. Applies Time Intelligence calculation item 'Prior Year'.
+	measure 'Total Quantity - Prior Year' = CALCULATE([Total Quantity], 'Time Intelligence'[Time Intelligence] = "Prior Year")
+		formatString: 0
+		displayFolder: Orders
+		lineageTag: 7171aade-650d-46f0-bc82-d121453b0557
+
+	/// Year-over-year change in Total Quantity. Applies Time Intelligence calculation item 'YoY'.
+	measure 'Total Quantity - YoY' = CALCULATE([Total Quantity], 'Time Intelligence'[Time Intelligence] = "YoY")
+		formatString: 0
+		displayFolder: Orders
+		lineageTag: 6d6c808b-7aa9-4cfa-b9dd-8f6c36eb3673
+
+	/// Year-over-year percent change in Total Quantity. Applies Time Intelligence calculation item 'YoY %'.
+	measure 'Total Quantity - YoY %' = CALCULATE([Total Quantity], 'Time Intelligence'[Time Intelligence] = "YoY %")
+		formatString: 0.00%
+		displayFolder: Orders
+		lineageTag: 6c29ef8e-3238-4a2e-a005-df6f3fd7d9f0
+
+	/// Total Quantity year-to-date based on Dim_Calendar[Date]. Applies Time Intelligence calculation item 'YTD'.
+	measure 'Total Quantity - YTD' = CALCULATE([Total Quantity], 'Time Intelligence'[Time Intelligence] = "YTD")
+		formatString: 0
+		displayFolder: Orders
+		lineageTag: 7a8f1be5-509b-4540-a88b-6df5ea585d2d
+
+	/// Total Quantity quarter-to-date based on Dim_Calendar[Date]. Applies Time Intelligence calculation item 'QTD'.
+	measure 'Total Quantity - QTD' = CALCULATE([Total Quantity], 'Time Intelligence'[Time Intelligence] = "QTD")
+		formatString: 0
+		displayFolder: Orders
+		lineageTag: f298d0fd-43be-42e1-82bf-8de13f17147f
+
+	/// Total Quantity month-to-date based on Dim_Calendar[Date]. Applies Time Intelligence calculation item 'MTD'.
+	measure 'Total Quantity - MTD' = CALCULATE([Total Quantity], 'Time Intelligence'[Time Intelligence] = "MTD")
+		formatString: 0
+		displayFolder: Orders
+		lineageTag: b3f529ca-f7e5-41f9-a961-4caa9b69e9d7
+
+	/// Order Count for the current period. Applies Time Intelligence calculation item 'Current'.
+	measure 'Order Count - Current' = CALCULATE([Order Count], 'Time Intelligence'[Time Intelligence] = "Current")
+		formatString: 0
+		displayFolder: Orders
+		lineageTag: 89317b4e-ce4c-4e27-ba11-ef042025e2db
+
+	/// Order Count for the same period in the prior year. Applies Time Intelligence calculation item 'Prior Year'.
+	measure 'Order Count - Prior Year' = CALCULATE([Order Count], 'Time Intelligence'[Time Intelligence] = "Prior Year")
+		formatString: 0
+		displayFolder: Orders
+		lineageTag: c8207219-c918-49b0-88df-fdfbc1758639
+
+	/// Year-over-year change in Order Count. Applies Time Intelligence calculation item 'YoY'.
+	measure 'Order Count - YoY' = CALCULATE([Order Count], 'Time Intelligence'[Time Intelligence] = "YoY")
+		formatString: 0
+		displayFolder: Orders
+		lineageTag: 94baa7bd-4a6b-4fec-a8aa-7d04d1e01e90
+
+	/// Year-over-year percent change in Order Count. Applies Time Intelligence calculation item 'YoY %'.
+	measure 'Order Count - YoY %' = CALCULATE([Order Count], 'Time Intelligence'[Time Intelligence] = "YoY %")
+		formatString: 0.00%
+		displayFolder: Orders
+		lineageTag: 6d745531-7f36-4dde-9c50-12a74992756a
+
+	/// Order Count year-to-date based on Dim_Calendar[Date]. Applies Time Intelligence calculation item 'YTD'.
+	measure 'Order Count - YTD' = CALCULATE([Order Count], 'Time Intelligence'[Time Intelligence] = "YTD")
+		formatString: 0
+		displayFolder: Orders
+		lineageTag: 629ad9d4-4b6a-4380-85c7-d2799fcd0f93
+
+	/// Order Count quarter-to-date based on Dim_Calendar[Date]. Applies Time Intelligence calculation item 'QTD'.
+	measure 'Order Count - QTD' = CALCULATE([Order Count], 'Time Intelligence'[Time Intelligence] = "QTD")
+		formatString: 0
+		displayFolder: Orders
+		lineageTag: 1deea16d-0bce-43ed-9941-eab61b51b698
+
+	/// Order Count month-to-date based on Dim_Calendar[Date]. Applies Time Intelligence calculation item 'MTD'.
+	measure 'Order Count - MTD' = CALCULATE([Order Count], 'Time Intelligence'[Time Intelligence] = "MTD")
+		formatString: 0
+		displayFolder: Orders
+		lineageTag: 48bfc265-55f3-49f3-8fe1-bd40950ae0f9
+
+	/// Average Order Value for the current period. Applies Time Intelligence calculation item 'Current'.
+	measure 'Average Order Value - Current' = CALCULATE([Average Order Value], 'Time Intelligence'[Time Intelligence] = "Current")
+		formatString: $#,0.00
+		displayFolder: Sales
+		lineageTag: cb661161-31ab-43c9-9a46-c52d97323454
+
+	/// Average Order Value for the same period in the prior year. Applies Time Intelligence calculation item 'Prior Year'.
+	measure 'Average Order Value - Prior Year' = CALCULATE([Average Order Value], 'Time Intelligence'[Time Intelligence] = "Prior Year")
+		formatString: $#,0.00
+		displayFolder: Sales
+		lineageTag: 71d79126-480a-497f-821f-85fe3d69ff7f
+
+	/// Year-over-year change in Average Order Value. Applies Time Intelligence calculation item 'YoY'.
+	measure 'Average Order Value - YoY' = CALCULATE([Average Order Value], 'Time Intelligence'[Time Intelligence] = "YoY")
+		formatString: $#,0.00
+		displayFolder: Sales
+		lineageTag: f8e862e5-4d55-49bc-82c0-774eb2527c81
+
+	/// Year-over-year percent change in Average Order Value. Applies Time Intelligence calculation item 'YoY %'.
+	measure 'Average Order Value - YoY %' = CALCULATE([Average Order Value], 'Time Intelligence'[Time Intelligence] = "YoY %")
+		formatString: 0.00%
+		displayFolder: Sales
+		lineageTag: 21d61a0f-e0eb-45dc-99bc-1c72e7b24b9b
+
+	/// Average Order Value year-to-date based on Dim_Calendar[Date]. Applies Time Intelligence calculation item 'YTD'.
+	measure 'Average Order Value - YTD' = CALCULATE([Average Order Value], 'Time Intelligence'[Time Intelligence] = "YTD")
+		formatString: $#,0.00
+		displayFolder: Sales
+		lineageTag: 9d366fb1-f481-42b1-866a-0e6353f82e46
+
+	/// Average Order Value quarter-to-date based on Dim_Calendar[Date]. Applies Time Intelligence calculation item 'QTD'.
+	measure 'Average Order Value - QTD' = CALCULATE([Average Order Value], 'Time Intelligence'[Time Intelligence] = "QTD")
+		formatString: $#,0.00
+		displayFolder: Sales
+		lineageTag: 01c3c79f-87fe-46ec-92f0-e841a4711ec3
+
+	/// Average Order Value month-to-date based on Dim_Calendar[Date]. Applies Time Intelligence calculation item 'MTD'.
+	measure 'Average Order Value - MTD' = CALCULATE([Average Order Value], 'Time Intelligence'[Time Intelligence] = "MTD")
+		formatString: $#,0.00
+		displayFolder: Sales
+		lineageTag: 26d1c6ca-5803-4966-8bde-36e52343f7c9
+
+	/// Total Discount Amount for the current period. Applies Time Intelligence calculation item 'Current'.
+	measure 'Total Discount Amount - Current' = CALCULATE([Total Discount Amount], 'Time Intelligence'[Time Intelligence] = "Current")
+		formatString: $#,0.00
+		displayFolder: Discounts
+		lineageTag: d9b72fe7-f38b-4926-9c5f-9ad68e442cb3
+
+	/// Total Discount Amount for the same period in the prior year. Applies Time Intelligence calculation item 'Prior Year'.
+	measure 'Total Discount Amount - Prior Year' = CALCULATE([Total Discount Amount], 'Time Intelligence'[Time Intelligence] = "Prior Year")
+		formatString: $#,0.00
+		displayFolder: Discounts
+		lineageTag: dcc34559-146a-47d5-9502-52cbb0721ebd
+
+	/// Year-over-year change in Total Discount Amount. Applies Time Intelligence calculation item 'YoY'.
+	measure 'Total Discount Amount - YoY' = CALCULATE([Total Discount Amount], 'Time Intelligence'[Time Intelligence] = "YoY")
+		formatString: $#,0.00
+		displayFolder: Discounts
+		lineageTag: 29ebe2f4-bf48-447b-92ab-c2b7fbea77db
+
+	/// Year-over-year percent change in Total Discount Amount. Applies Time Intelligence calculation item 'YoY %'.
+	measure 'Total Discount Amount - YoY %' = CALCULATE([Total Discount Amount], 'Time Intelligence'[Time Intelligence] = "YoY %")
+		formatString: 0.00%
+		displayFolder: Discounts
+		lineageTag: 13aa1245-bbe5-4709-9c08-43d092672b4f
+
+	/// Total Discount Amount year-to-date based on Dim_Calendar[Date]. Applies Time Intelligence calculation item 'YTD'.
+	measure 'Total Discount Amount - YTD' = CALCULATE([Total Discount Amount], 'Time Intelligence'[Time Intelligence] = "YTD")
+		formatString: $#,0.00
+		displayFolder: Discounts
+		lineageTag: 374e0a90-4683-4a16-8c69-d42da5634fb3
+
+	/// Total Discount Amount quarter-to-date based on Dim_Calendar[Date]. Applies Time Intelligence calculation item 'QTD'.
+	measure 'Total Discount Amount - QTD' = CALCULATE([Total Discount Amount], 'Time Intelligence'[Time Intelligence] = "QTD")
+		formatString: $#,0.00
+		displayFolder: Discounts
+		lineageTag: 5d2a99e3-5b2d-44c9-a7af-d0765bb59bfb
+
+	/// Total Discount Amount month-to-date based on Dim_Calendar[Date]. Applies Time Intelligence calculation item 'MTD'.
+	measure 'Total Discount Amount - MTD' = CALCULATE([Total Discount Amount], 'Time Intelligence'[Time Intelligence] = "MTD")
+		formatString: $#,0.00
+		displayFolder: Discounts
+		lineageTag: 8dc7ce7f-ead5-490e-ac72-3b76c848687f
+
+	/// Average Discount Rate for the current period. Applies Time Intelligence calculation item 'Current'.
+	measure 'Average Discount Rate - Current' = CALCULATE([Average Discount Rate], 'Time Intelligence'[Time Intelligence] = "Current")
+		formatString: 0.00%
+		displayFolder: Discounts
+		lineageTag: baa9db42-be84-4e88-b913-335f480d65ca
+
+	/// Average Discount Rate for the same period in the prior year. Applies Time Intelligence calculation item 'Prior Year'.
+	measure 'Average Discount Rate - Prior Year' = CALCULATE([Average Discount Rate], 'Time Intelligence'[Time Intelligence] = "Prior Year")
+		formatString: 0.00%
+		displayFolder: Discounts
+		lineageTag: 29166a5f-f04d-45a5-af85-faaab13b8530
+
+	/// Year-over-year change in Average Discount Rate. Applies Time Intelligence calculation item 'YoY'.
+	measure 'Average Discount Rate - YoY' = CALCULATE([Average Discount Rate], 'Time Intelligence'[Time Intelligence] = "YoY")
+		formatString: 0.00%
+		displayFolder: Discounts
+		lineageTag: 5dcd799d-5fc9-4dca-bea4-0865515ceafb
+
+	/// Year-over-year percent change in Average Discount Rate. Applies Time Intelligence calculation item 'YoY %'.
+	measure 'Average Discount Rate - YoY %' = CALCULATE([Average Discount Rate], 'Time Intelligence'[Time Intelligence] = "YoY %")
+		formatString: 0.00%
+		displayFolder: Discounts
+		lineageTag: 0c879680-0029-4dc0-93f0-e88767ada0da
+
+	/// Average Discount Rate year-to-date based on Dim_Calendar[Date]. Applies Time Intelligence calculation item 'YTD'.
+	measure 'Average Discount Rate - YTD' = CALCULATE([Average Discount Rate], 'Time Intelligence'[Time Intelligence] = "YTD")
+		formatString: 0.00%
+		displayFolder: Discounts
+		lineageTag: b75718fd-f67e-4a0e-8272-d736448944d2
+
+	/// Average Discount Rate quarter-to-date based on Dim_Calendar[Date]. Applies Time Intelligence calculation item 'QTD'.
+	measure 'Average Discount Rate - QTD' = CALCULATE([Average Discount Rate], 'Time Intelligence'[Time Intelligence] = "QTD")
+		formatString: 0.00%
+		displayFolder: Discounts
+		lineageTag: 429b5cdc-d15b-49f6-a055-0d1d6b676b13
+
+	/// Average Discount Rate month-to-date based on Dim_Calendar[Date]. Applies Time Intelligence calculation item 'MTD'.
+	measure 'Average Discount Rate - MTD' = CALCULATE([Average Discount Rate], 'Time Intelligence'[Time Intelligence] = "MTD")
+		formatString: 0.00%
+		displayFolder: Discounts
+		lineageTag: 41a19e87-2798-418c-940a-7a8d3139d3d3
+
+	/// Late Orders Count for the current period. Applies Time Intelligence calculation item 'Current'.
+	measure 'Late Orders Count - Current' = CALCULATE([Late Orders Count], 'Time Intelligence'[Time Intelligence] = "Current")
+		formatString: 0
+		displayFolder: Shipping
+		lineageTag: 1d3c34f3-ca9b-41ee-b491-66d0f10f1023
+
+	/// Late Orders Count for the same period in the prior year. Applies Time Intelligence calculation item 'Prior Year'.
+	measure 'Late Orders Count - Prior Year' = CALCULATE([Late Orders Count], 'Time Intelligence'[Time Intelligence] = "Prior Year")
+		formatString: 0
+		displayFolder: Shipping
+		lineageTag: 52d16c16-42c3-4658-a0f6-da8fe04b6dab
+
+	/// Year-over-year change in Late Orders Count. Applies Time Intelligence calculation item 'YoY'.
+	measure 'Late Orders Count - YoY' = CALCULATE([Late Orders Count], 'Time Intelligence'[Time Intelligence] = "YoY")
+		formatString: 0
+		displayFolder: Shipping
+		lineageTag: 5f5b462b-b93c-4896-ab28-48c6eeb9970f
+
+	/// Year-over-year percent change in Late Orders Count. Applies Time Intelligence calculation item 'YoY %'.
+	measure 'Late Orders Count - YoY %' = CALCULATE([Late Orders Count], 'Time Intelligence'[Time Intelligence] = "YoY %")
+		formatString: 0.00%
+		displayFolder: Shipping
+		lineageTag: ab7436a8-5897-48e6-b590-4156799b0d27
+
+	/// Late Orders Count year-to-date based on Dim_Calendar[Date]. Applies Time Intelligence calculation item 'YTD'.
+	measure 'Late Orders Count - YTD' = CALCULATE([Late Orders Count], 'Time Intelligence'[Time Intelligence] = "YTD")
+		formatString: 0
+		displayFolder: Shipping
+		lineageTag: 8760c32c-eb93-486e-84c0-2ac2e9663bc8
+
+	/// Late Orders Count quarter-to-date based on Dim_Calendar[Date]. Applies Time Intelligence calculation item 'QTD'.
+	measure 'Late Orders Count - QTD' = CALCULATE([Late Orders Count], 'Time Intelligence'[Time Intelligence] = "QTD")
+		formatString: 0
+		displayFolder: Shipping
+		lineageTag: 01f58df0-c4d0-4065-9beb-51d72a302ea8
+
+	/// Late Orders Count month-to-date based on Dim_Calendar[Date]. Applies Time Intelligence calculation item 'MTD'.
+	measure 'Late Orders Count - MTD' = CALCULATE([Late Orders Count], 'Time Intelligence'[Time Intelligence] = "MTD")
+		formatString: 0
+		displayFolder: Shipping
+		lineageTag: ad6357bf-5451-49de-930b-7913e579dfa1
+
+	/// Late Orders % for the current period. Applies Time Intelligence calculation item 'Current'.
+	measure 'Late Orders % - Current' = CALCULATE([Late Orders %], 'Time Intelligence'[Time Intelligence] = "Current")
+		formatString: 0.00%
+		displayFolder: Shipping
+		lineageTag: 309e5305-af97-443e-8fb5-d304c4b6f073
+
+	/// Late Orders % for the same period in the prior year. Applies Time Intelligence calculation item 'Prior Year'.
+	measure 'Late Orders % - Prior Year' = CALCULATE([Late Orders %], 'Time Intelligence'[Time Intelligence] = "Prior Year")
+		formatString: 0.00%
+		displayFolder: Shipping
+		lineageTag: d4f894fe-5f74-43d1-838e-55ab2cf048ca
+
+	/// Year-over-year change in Late Orders %. Applies Time Intelligence calculation item 'YoY'.
+	measure 'Late Orders % - YoY' = CALCULATE([Late Orders %], 'Time Intelligence'[Time Intelligence] = "YoY")
+		formatString: 0.00%
+		displayFolder: Shipping
+		lineageTag: 342dba5d-cb17-4954-b053-f0f94f01c3b5
+
+	/// Year-over-year percent change in Late Orders %. Applies Time Intelligence calculation item 'YoY %'.
+	measure 'Late Orders % - YoY %' = CALCULATE([Late Orders %], 'Time Intelligence'[Time Intelligence] = "YoY %")
+		formatString: 0.00%
+		displayFolder: Shipping
+		lineageTag: a2f96f14-3109-4629-9295-503d9bf5021a
+
+	/// Late Orders % year-to-date based on Dim_Calendar[Date]. Applies Time Intelligence calculation item 'YTD'.
+	measure 'Late Orders % - YTD' = CALCULATE([Late Orders %], 'Time Intelligence'[Time Intelligence] = "YTD")
+		formatString: 0.00%
+		displayFolder: Shipping
+		lineageTag: e7884d46-1a80-43ae-9283-dd52c33bb968
+
+	/// Late Orders % quarter-to-date based on Dim_Calendar[Date]. Applies Time Intelligence calculation item 'QTD'.
+	measure 'Late Orders % - QTD' = CALCULATE([Late Orders %], 'Time Intelligence'[Time Intelligence] = "QTD")
+		formatString: 0.00%
+		displayFolder: Shipping
+		lineageTag: c9197c84-4329-479b-a62e-0a2f27499e4a
+
+	/// Late Orders % month-to-date based on Dim_Calendar[Date]. Applies Time Intelligence calculation item 'MTD'.
+	measure 'Late Orders % - MTD' = CALCULATE([Late Orders %], 'Time Intelligence'[Time Intelligence] = "MTD")
+		formatString: 0.00%
+		displayFolder: Shipping
+		lineageTag: 9f175b45-c2fc-4909-88c0-855ec8d2636f
+
+	/// Average Days to Ship for the current period. Applies Time Intelligence calculation item 'Current'.
+	measure 'Average Days to Ship - Current' = CALCULATE([Average Days to Ship], 'Time Intelligence'[Time Intelligence] = "Current")
+		formatString: 0
+		displayFolder: Shipping
+		lineageTag: 86d6cff8-3466-4706-874c-78fbc33a88ef
+
+	/// Average Days to Ship for the same period in the prior year. Applies Time Intelligence calculation item 'Prior Year'.
+	measure 'Average Days to Ship - Prior Year' = CALCULATE([Average Days to Ship], 'Time Intelligence'[Time Intelligence] = "Prior Year")
+		formatString: 0
+		displayFolder: Shipping
+		lineageTag: b6f1a9f6-e48d-4d21-b412-8c7085d8d7ff
+
+	/// Year-over-year change in Average Days to Ship. Applies Time Intelligence calculation item 'YoY'.
+	measure 'Average Days to Ship - YoY' = CALCULATE([Average Days to Ship], 'Time Intelligence'[Time Intelligence] = "YoY")
+		formatString: 0
+		displayFolder: Shipping
+		lineageTag: 670f3384-af3a-4250-a3c8-0efe7cf30fc4
+
+	/// Year-over-year percent change in Average Days to Ship. Applies Time Intelligence calculation item 'YoY %'.
+	measure 'Average Days to Ship - YoY %' = CALCULATE([Average Days to Ship], 'Time Intelligence'[Time Intelligence] = "YoY %")
+		formatString: 0.00%
+		displayFolder: Shipping
+		lineageTag: 603b1cad-9bd1-418a-b45c-1e1b8b3d4ead
+
+	/// Average Days to Ship year-to-date based on Dim_Calendar[Date]. Applies Time Intelligence calculation item 'YTD'.
+	measure 'Average Days to Ship - YTD' = CALCULATE([Average Days to Ship], 'Time Intelligence'[Time Intelligence] = "YTD")
+		formatString: 0
+		displayFolder: Shipping
+		lineageTag: eb47dba6-d8c7-4e8d-8d16-a00be8a5fe91
+
+	/// Average Days to Ship quarter-to-date based on Dim_Calendar[Date]. Applies Time Intelligence calculation item 'QTD'.
+	measure 'Average Days to Ship - QTD' = CALCULATE([Average Days to Ship], 'Time Intelligence'[Time Intelligence] = "QTD")
+		formatString: 0
+		displayFolder: Shipping
+		lineageTag: 99a2c75e-ee0c-449e-8eac-d96bd2b0656c
+
+	/// Average Days to Ship month-to-date based on Dim_Calendar[Date]. Applies Time Intelligence calculation item 'MTD'.
+	measure 'Average Days to Ship - MTD' = CALCULATE([Average Days to Ship], 'Time Intelligence'[Time Intelligence] = "MTD")
+		formatString: 0
+		displayFolder: Shipping
+		lineageTag: 6e1f799b-c3aa-4248-a71d-29981ba52d8d
+
+	column Measure
+		isHidden
+		lineageTag: 234c2fc0-3350-400d-9aad-38230e4747b4
+		isNameInferred
+		sourceColumn: [Measure]
+
+	partition _Measures = calculated
+		mode: import
+		source = DATATABLE("Measure", INTEGER, {{1}})
+

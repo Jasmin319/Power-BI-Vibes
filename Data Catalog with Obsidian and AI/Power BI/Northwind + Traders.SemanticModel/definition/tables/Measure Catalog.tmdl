@@ -1,0 +1,116 @@
+table 'Measure Catalog'
+	lineageTag: 9e1091d4-ff9f-4842-9b4b-5dfe3367f15b
+
+	column 'Measure Name'
+		lineageTag: 3a55d6fa-2692-4a53-a002-f61a30a76973
+		isNameInferred
+		sourceColumn: [Measure Name]
+
+	column 'DAX Expression'
+		lineageTag: 667b7925-6674-4e82-99d4-7a6480ada519
+		isNameInferred
+		sourceColumn: [DAX Expression]
+
+	column 'Format String'
+		lineageTag: 95938a6a-3eed-47a5-8147-05dea435e8e1
+		isNameInferred
+		sourceColumn: [Format String]
+
+	column Description
+		lineageTag: 8bfceeb6-3984-4e07-879b-52a9ba0151b5
+		isNameInferred
+		sourceColumn: [Description]
+
+	partition 'Measure Catalog' = calculated
+		mode: import
+		source =
+				DATATABLE(
+				    "Measure Name", STRING,
+				    "DAX Expression", STRING,
+				    "Format String", STRING,
+				    "Description", STRING,
+				    {
+				        {"Total Sales", "SUMX(Fact_OrderDetail, Fact_OrderDetail[Unit Price] * Fact_OrderDetail[Quantity Ordered] * (1 - Fact_OrderDetail[Discount Rate]))", "$#,0.00", "Total net sales for all order lines, calculated as Unit Price x Quantity Ordered x (1 - Discount Rate). Uses line item detail and reflects current filter context."},
+				        {"Total Quantity", "SUM(Fact_OrderDetail[Quantity Ordered])", "0", "Total units sold, calculated as the sum of Quantity Ordered from all order lines in the current filter context."},
+				        {"Order Count", "DISTINCTCOUNT(Fact_Order[Order ID])", "0", "Number of distinct orders based on Order ID in the current filter context."},
+				        {"Average Order Value", "DIVIDE([Total Sales], [Order Count])", "$#,0.00", "Average sales per order, calculated as Total Sales divided by Order Count for the current filter context."},
+				        {"Total Discount Amount", "SUMX(Fact_OrderDetail, Fact_OrderDetail[Unit Price] * Fact_OrderDetail[Quantity Ordered] * Fact_OrderDetail[Discount Rate])", "$#,0.00", "Total discount value given, calculated as Unit Price x Quantity Ordered x Discount Rate across all order lines."},
+				        {"Average Discount Rate", "AVERAGE(Fact_OrderDetail[Discount Rate])", "0.00%", "Average line-item discount rate (0-1 scale) across the current filter context."},
+				        {"Late Orders Count", "COUNTROWS(FILTER(Fact_Order, Fact_Order[Days Late] > 0))", "0", "Count of orders with Days Late > 0 in the current filter context."},
+				        {"Late Orders %", "DIVIDE([Late Orders Count], [Order Count])", "0.00%", "Percent of orders that were late, calculated as Late Orders Count divided by Order Count."},
+				        {"Average Days to Ship", "AVERAGE(Fact_Order[Days to Ship])", "0", "Average number of days from order date to shipped date, using Days to Ship in the current filter context."},
+				
+				        {"Total Sales - Current", "CALCULATE([Total Sales], 'Time Intelligence'[Time Intelligence] = ""Current"")", "$#,0.00", "Total Sales for the current period. Applies Time Intelligence calculation item 'Current'."},
+				        {"Total Sales - Prior Year", "CALCULATE([Total Sales], 'Time Intelligence'[Time Intelligence] = ""Prior Year"")", "$#,0.00", "Total Sales for the same period in the prior year. Applies Time Intelligence calculation item 'Prior Year'."},
+				        {"Total Sales - YoY", "CALCULATE([Total Sales], 'Time Intelligence'[Time Intelligence] = ""YoY"")", "$#,0.00", "Year-over-year change in Total Sales (current period minus prior year). Applies Time Intelligence calculation item 'YoY'."},
+				        {"Total Sales - YoY %", "CALCULATE([Total Sales], 'Time Intelligence'[Time Intelligence] = ""YoY %"")", "0.00%", "Year-over-year percent change in Total Sales. Applies Time Intelligence calculation item 'YoY %'."},
+				        {"Total Sales - YTD", "CALCULATE([Total Sales], 'Time Intelligence'[Time Intelligence] = ""YTD"")", "$#,0.00", "Total Sales year-to-date based on Dim_Calendar[Date]. Applies Time Intelligence calculation item 'YTD'."},
+				        {"Total Sales - QTD", "CALCULATE([Total Sales], 'Time Intelligence'[Time Intelligence] = ""QTD"")", "$#,0.00", "Total Sales quarter-to-date based on Dim_Calendar[Date]. Applies Time Intelligence calculation item 'QTD'."},
+				        {"Total Sales - MTD", "CALCULATE([Total Sales], 'Time Intelligence'[Time Intelligence] = ""MTD"")", "$#,0.00", "Total Sales month-to-date based on Dim_Calendar[Date]. Applies Time Intelligence calculation item 'MTD'."},
+				
+				        {"Total Quantity - Current", "CALCULATE([Total Quantity], 'Time Intelligence'[Time Intelligence] = ""Current"")", "0", "Total Quantity for the current period. Applies Time Intelligence calculation item 'Current'."},
+				        {"Total Quantity - Prior Year", "CALCULATE([Total Quantity], 'Time Intelligence'[Time Intelligence] = ""Prior Year"")", "0", "Total Quantity for the same period in the prior year. Applies Time Intelligence calculation item 'Prior Year'."},
+				        {"Total Quantity - YoY", "CALCULATE([Total Quantity], 'Time Intelligence'[Time Intelligence] = ""YoY"")", "0", "Year-over-year change in Total Quantity. Applies Time Intelligence calculation item 'YoY'."},
+				        {"Total Quantity - YoY %", "CALCULATE([Total Quantity], 'Time Intelligence'[Time Intelligence] = ""YoY %"")", "0.00%", "Year-over-year percent change in Total Quantity. Applies Time Intelligence calculation item 'YoY %'."},
+				        {"Total Quantity - YTD", "CALCULATE([Total Quantity], 'Time Intelligence'[Time Intelligence] = ""YTD"")", "0", "Total Quantity year-to-date based on Dim_Calendar[Date]. Applies Time Intelligence calculation item 'YTD'."},
+				        {"Total Quantity - QTD", "CALCULATE([Total Quantity], 'Time Intelligence'[Time Intelligence] = ""QTD"")", "0", "Total Quantity quarter-to-date based on Dim_Calendar[Date]. Applies Time Intelligence calculation item 'QTD'."},
+				        {"Total Quantity - MTD", "CALCULATE([Total Quantity], 'Time Intelligence'[Time Intelligence] = ""MTD"")", "0", "Total Quantity month-to-date based on Dim_Calendar[Date]. Applies Time Intelligence calculation item 'MTD'."},
+				
+				        {"Order Count - Current", "CALCULATE([Order Count], 'Time Intelligence'[Time Intelligence] = ""Current"")", "0", "Order Count for the current period. Applies Time Intelligence calculation item 'Current'."},
+				        {"Order Count - Prior Year", "CALCULATE([Order Count], 'Time Intelligence'[Time Intelligence] = ""Prior Year"")", "0", "Order Count for the same period in the prior year. Applies Time Intelligence calculation item 'Prior Year'."},
+				        {"Order Count - YoY", "CALCULATE([Order Count], 'Time Intelligence'[Time Intelligence] = ""YoY"")", "0", "Year-over-year change in Order Count. Applies Time Intelligence calculation item 'YoY'."},
+				        {"Order Count - YoY %", "CALCULATE([Order Count], 'Time Intelligence'[Time Intelligence] = ""YoY %"")", "0.00%", "Year-over-year percent change in Order Count. Applies Time Intelligence calculation item 'YoY %'."},
+				        {"Order Count - YTD", "CALCULATE([Order Count], 'Time Intelligence'[Time Intelligence] = ""YTD"")", "0", "Order Count year-to-date based on Dim_Calendar[Date]. Applies Time Intelligence calculation item 'YTD'."},
+				        {"Order Count - QTD", "CALCULATE([Order Count], 'Time Intelligence'[Time Intelligence] = ""QTD"")", "0", "Order Count quarter-to-date based on Dim_Calendar[Date]. Applies Time Intelligence calculation item 'QTD'."},
+				        {"Order Count - MTD", "CALCULATE([Order Count], 'Time Intelligence'[Time Intelligence] = ""MTD"")", "0", "Order Count month-to-date based on Dim_Calendar[Date]. Applies Time Intelligence calculation item 'MTD'."},
+				
+				        {"Average Order Value - Current", "CALCULATE([Average Order Value], 'Time Intelligence'[Time Intelligence] = ""Current"")", "$#,0.00", "Average Order Value for the current period. Applies Time Intelligence calculation item 'Current'."},
+				        {"Average Order Value - Prior Year", "CALCULATE([Average Order Value], 'Time Intelligence'[Time Intelligence] = ""Prior Year"")", "$#,0.00", "Average Order Value for the same period in the prior year. Applies Time Intelligence calculation item 'Prior Year'."},
+				        {"Average Order Value - YoY", "CALCULATE([Average Order Value], 'Time Intelligence'[Time Intelligence] = ""YoY"")", "$#,0.00", "Year-over-year change in Average Order Value. Applies Time Intelligence calculation item 'YoY'."},
+				        {"Average Order Value - YoY %", "CALCULATE([Average Order Value], 'Time Intelligence'[Time Intelligence] = ""YoY %"")", "0.00%", "Year-over-year percent change in Average Order Value. Applies Time Intelligence calculation item 'YoY %'."},
+				        {"Average Order Value - YTD", "CALCULATE([Average Order Value], 'Time Intelligence'[Time Intelligence] = ""YTD"")", "$#,0.00", "Average Order Value year-to-date based on Dim_Calendar[Date]. Applies Time Intelligence calculation item 'YTD'."},
+				        {"Average Order Value - QTD", "CALCULATE([Average Order Value], 'Time Intelligence'[Time Intelligence] = ""QTD"")", "$#,0.00", "Average Order Value quarter-to-date based on Dim_Calendar[Date]. Applies Time Intelligence calculation item 'QTD'."},
+				        {"Average Order Value - MTD", "CALCULATE([Average Order Value], 'Time Intelligence'[Time Intelligence] = ""MTD"")", "$#,0.00", "Average Order Value month-to-date based on Dim_Calendar[Date]. Applies Time Intelligence calculation item 'MTD'."},
+				
+				        {"Total Discount Amount - Current", "CALCULATE([Total Discount Amount], 'Time Intelligence'[Time Intelligence] = ""Current"")", "$#,0.00", "Total Discount Amount for the current period. Applies Time Intelligence calculation item 'Current'."},
+				        {"Total Discount Amount - Prior Year", "CALCULATE([Total Discount Amount], 'Time Intelligence'[Time Intelligence] = ""Prior Year"")", "$#,0.00", "Total Discount Amount for the same period in the prior year. Applies Time Intelligence calculation item 'Prior Year'."},
+				        {"Total Discount Amount - YoY", "CALCULATE([Total Discount Amount], 'Time Intelligence'[Time Intelligence] = ""YoY"")", "$#,0.00", "Year-over-year change in Total Discount Amount. Applies Time Intelligence calculation item 'YoY'."},
+				        {"Total Discount Amount - YoY %", "CALCULATE([Total Discount Amount], 'Time Intelligence'[Time Intelligence] = ""YoY %"")", "0.00%", "Year-over-year percent change in Total Discount Amount. Applies Time Intelligence calculation item 'YoY %'."},
+				        {"Total Discount Amount - YTD", "CALCULATE([Total Discount Amount], 'Time Intelligence'[Time Intelligence] = ""YTD"")", "$#,0.00", "Total Discount Amount year-to-date based on Dim_Calendar[Date]. Applies Time Intelligence calculation item 'YTD'."},
+				        {"Total Discount Amount - QTD", "CALCULATE([Total Discount Amount], 'Time Intelligence'[Time Intelligence] = ""QTD"")", "$#,0.00", "Total Discount Amount quarter-to-date based on Dim_Calendar[Date]. Applies Time Intelligence calculation item 'QTD'."},
+				        {"Total Discount Amount - MTD", "CALCULATE([Total Discount Amount], 'Time Intelligence'[Time Intelligence] = ""MTD"")", "$#,0.00", "Total Discount Amount month-to-date based on Dim_Calendar[Date]. Applies Time Intelligence calculation item 'MTD'."},
+				
+				        {"Average Discount Rate - Current", "CALCULATE([Average Discount Rate], 'Time Intelligence'[Time Intelligence] = ""Current"")", "0.00%", "Average Discount Rate for the current period. Applies Time Intelligence calculation item 'Current'."},
+				        {"Average Discount Rate - Prior Year", "CALCULATE([Average Discount Rate], 'Time Intelligence'[Time Intelligence] = ""Prior Year"")", "0.00%", "Average Discount Rate for the same period in the prior year. Applies Time Intelligence calculation item 'Prior Year'."},
+				        {"Average Discount Rate - YoY", "CALCULATE([Average Discount Rate], 'Time Intelligence'[Time Intelligence] = ""YoY"")", "0.00%", "Year-over-year change in Average Discount Rate. Applies Time Intelligence calculation item 'YoY'."},
+				        {"Average Discount Rate - YoY %", "CALCULATE([Average Discount Rate], 'Time Intelligence'[Time Intelligence] = ""YoY %"")", "0.00%", "Year-over-year percent change in Average Discount Rate. Applies Time Intelligence calculation item 'YoY %'."},
+				        {"Average Discount Rate - YTD", "CALCULATE([Average Discount Rate], 'Time Intelligence'[Time Intelligence] = ""YTD"")", "0.00%", "Average Discount Rate year-to-date based on Dim_Calendar[Date]. Applies Time Intelligence calculation item 'YTD'."},
+				        {"Average Discount Rate - QTD", "CALCULATE([Average Discount Rate], 'Time Intelligence'[Time Intelligence] = ""QTD"")", "0.00%", "Average Discount Rate quarter-to-date based on Dim_Calendar[Date]. Applies Time Intelligence calculation item 'QTD'."},
+				        {"Average Discount Rate - MTD", "CALCULATE([Average Discount Rate], 'Time Intelligence'[Time Intelligence] = ""MTD"")", "0.00%", "Average Discount Rate month-to-date based on Dim_Calendar[Date]. Applies Time Intelligence calculation item 'MTD'."},
+				
+				        {"Late Orders Count - Current", "CALCULATE([Late Orders Count], 'Time Intelligence'[Time Intelligence] = ""Current"")", "0", "Late Orders Count for the current period. Applies Time Intelligence calculation item 'Current'."},
+				        {"Late Orders Count - Prior Year", "CALCULATE([Late Orders Count], 'Time Intelligence'[Time Intelligence] = ""Prior Year"")", "0", "Late Orders Count for the same period in the prior year. Applies Time Intelligence calculation item 'Prior Year'."},
+				        {"Late Orders Count - YoY", "CALCULATE([Late Orders Count], 'Time Intelligence'[Time Intelligence] = ""YoY"")", "0", "Year-over-year change in Late Orders Count. Applies Time Intelligence calculation item 'YoY'."},
+				        {"Late Orders Count - YoY %", "CALCULATE([Late Orders Count], 'Time Intelligence'[Time Intelligence] = ""YoY %"")", "0.00%", "Year-over-year percent change in Late Orders Count. Applies Time Intelligence calculation item 'YoY %'."},
+				        {"Late Orders Count - YTD", "CALCULATE([Late Orders Count], 'Time Intelligence'[Time Intelligence] = ""YTD"")", "0", "Late Orders Count year-to-date based on Dim_Calendar[Date]. Applies Time Intelligence calculation item 'YTD'."},
+				        {"Late Orders Count - QTD", "CALCULATE([Late Orders Count], 'Time Intelligence'[Time Intelligence] = ""QTD"")", "0", "Late Orders Count quarter-to-date based on Dim_Calendar[Date]. Applies Time Intelligence calculation item 'QTD'."},
+				        {"Late Orders Count - MTD", "CALCULATE([Late Orders Count], 'Time Intelligence'[Time Intelligence] = ""MTD"")", "0", "Late Orders Count month-to-date based on Dim_Calendar[Date]. Applies Time Intelligence calculation item 'MTD'."},
+				
+				        {"Late Orders % - Current", "CALCULATE([Late Orders %], 'Time Intelligence'[Time Intelligence] = ""Current"")", "0.00%", "Late Orders % for the current period. Applies Time Intelligence calculation item 'Current'."},
+				        {"Late Orders % - Prior Year", "CALCULATE([Late Orders %], 'Time Intelligence'[Time Intelligence] = ""Prior Year"")", "0.00%", "Late Orders % for the same period in the prior year. Applies Time Intelligence calculation item 'Prior Year'."},
+				        {"Late Orders % - YoY", "CALCULATE([Late Orders %], 'Time Intelligence'[Time Intelligence] = ""YoY"")", "0.00%", "Year-over-year change in Late Orders %. Applies Time Intelligence calculation item 'YoY'."},
+				        {"Late Orders % - YoY %", "CALCULATE([Late Orders %], 'Time Intelligence'[Time Intelligence] = ""YoY %"")", "0.00%", "Year-over-year percent change in Late Orders %. Applies Time Intelligence calculation item 'YoY %'."},
+				        {"Late Orders % - YTD", "CALCULATE([Late Orders %], 'Time Intelligence'[Time Intelligence] = ""YTD"")", "0.00%", "Late Orders % year-to-date based on Dim_Calendar[Date]. Applies Time Intelligence calculation item 'YTD'."},
+				        {"Late Orders % - QTD", "CALCULATE([Late Orders %], 'Time Intelligence'[Time Intelligence] = ""QTD"")", "0.00%", "Late Orders % quarter-to-date based on Dim_Calendar[Date]. Applies Time Intelligence calculation item 'QTD'."},
+				        {"Late Orders % - MTD", "CALCULATE([Late Orders %], 'Time Intelligence'[Time Intelligence] = ""MTD"")", "0.00%", "Late Orders % month-to-date based on Dim_Calendar[Date]. Applies Time Intelligence calculation item 'MTD'."},
+				
+				        {"Average Days to Ship - Current", "CALCULATE([Average Days to Ship], 'Time Intelligence'[Time Intelligence] = ""Current"")", "0", "Average Days to Ship for the current period. Applies Time Intelligence calculation item 'Current'."},
+				        {"Average Days to Ship - Prior Year", "CALCULATE([Average Days to Ship], 'Time Intelligence'[Time Intelligence] = ""Prior Year"")", "0", "Average Days to Ship for the same period in the prior year. Applies Time Intelligence calculation item 'Prior Year'."},
+				        {"Average Days to Ship - YoY", "CALCULATE([Average Days to Ship], 'Time Intelligence'[Time Intelligence] = ""YoY"")", "0", "Year-over-year change in Average Days to Ship. Applies Time Intelligence calculation item 'YoY'."},
+				        {"Average Days to Ship - YoY %", "CALCULATE([Average Days to Ship], 'Time Intelligence'[Time Intelligence] = ""YoY %"")", "0.00%", "Year-over-year percent change in Average Days to Ship. Applies Time Intelligence calculation item 'YoY %'."},
+				        {"Average Days to Ship - YTD", "CALCULATE([Average Days to Ship], 'Time Intelligence'[Time Intelligence] = ""YTD"")", "0", "Average Days to Ship year-to-date based on Dim_Calendar[Date]. Applies Time Intelligence calculation item 'YTD'."},
+				        {"Average Days to Ship - QTD", "CALCULATE([Average Days to Ship], 'Time Intelligence'[Time Intelligence] = ""QTD"")", "0", "Average Days to Ship quarter-to-date based on Dim_Calendar[Date]. Applies Time Intelligence calculation item 'QTD'."},
+				        {"Average Days to Ship - MTD", "CALCULATE([Average Days to Ship], 'Time Intelligence'[Time Intelligence] = ""MTD"")", "0", "Average Days to Ship month-to-date based on Dim_Calendar[Date]. Applies Time Intelligence calculation item 'MTD'."}
+				    }
+				)
+

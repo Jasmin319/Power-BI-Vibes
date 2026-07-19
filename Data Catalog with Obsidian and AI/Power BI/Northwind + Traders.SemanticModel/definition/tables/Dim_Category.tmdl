@@ -1,0 +1,47 @@
+/// Product categories that classify all offerings (e.g., Beverages, Dairy, Produce). Enables hierarchical product analysis and category-level performance reporting.
+table Dim_Category
+	lineageTag: 35c2f614-0f4a-4c2a-bce3-0c3425bf4fb2
+
+	/// Unique identifier for each product category
+	column 'Category ID'
+		dataType: int64
+		isUnique
+		formatString: 0
+		lineageTag: c2392fe2-9304-409d-a47c-f8458e512b05
+		summarizeBy: none
+		sourceColumn: categoryID
+
+		annotation SummarizationSetBy = Automatic
+
+	/// The name of the product category (e.g., Beverages, Dairy, Produce)
+	column 'Category Name'
+		dataType: string
+		lineageTag: 3bab9e94-dcf3-4976-8e1e-9599a75bdb35
+		summarizeBy: none
+		sourceColumn: categoryName
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Detailed description of the product category and the types of products it contains
+	column 'Category Description'
+		dataType: string
+		lineageTag: 1a8a9046-746b-49ac-b581-c53453259a12
+		summarizeBy: none
+		sourceColumn: description
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'categories LookUp-7c4a202e-5263-4fee-b0e8-37aa18356acb' = m
+		mode: import
+		source =
+				let
+				    Quelle = Csv.Document(File.Contents("C:\Users\simader\Documents\Jasmin\Data Analytics\Sample Data\Northwind+Traders\Northwind Traders\categories.csv"),[Delimiter=",", Columns=3, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+				    #"Höher gestufte Header" = Table.PromoteHeaders(Quelle, [PromoteAllScalars=true]),
+				    #"Geänderter Typ" = Table.TransformColumnTypes(#"Höher gestufte Header",{{"categoryID", Int64.Type}, {"categoryName", type text}, {"description", type text}})
+				in
+				    #"Geänderter Typ"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Exception
+

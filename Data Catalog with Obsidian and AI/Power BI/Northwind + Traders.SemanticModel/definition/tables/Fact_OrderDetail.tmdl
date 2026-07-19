@@ -1,0 +1,90 @@
+/// Contains the line-item detail for each order, including product quantities, unit prices, and discounts applied. Each row represents one product within an order and provides the granular data needed for product-level sales analysis and revenue calculations.
+table Fact_OrderDetail
+	lineageTag: 391c6cb7-e7a6-4777-9937-37e37f572251
+
+	/// Reference to the parent order - ties line items to their order header
+	column 'Order ID'
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 016a4398-6821-4762-bbfe-cb3e14f046e4
+		summarizeBy: none
+		sourceColumn: orderID
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Reference to the specific product ordered in this line item
+	column 'Product ID'
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 8bdcfcca-31e9-43b8-a78e-30f8ec2557c9
+		summarizeBy: none
+		sourceColumn: productID
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	/// The price per unit of the product at the time of order
+	column 'Unit Price'
+		dataType: double
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		lineageTag: e11186a9-1277-48ce-88df-3fb2b068907c
+		summarizeBy: average
+		sourceColumn: unitPrice
+
+		annotation SummarizationSetBy = Automatic
+
+	/// The number of units of the product ordered in this line item
+	column 'Quantity Ordered'
+		dataType: int64
+		formatString: 0
+		lineageTag: 170fd484-dae7-49c2-b9bb-c4b5ef725be6
+		summarizeBy: sum
+		sourceColumn: quantity
+
+		annotation SummarizationSetBy = Automatic
+
+	/// The percentage discount applied to this product line (0-1 scale)
+	column 'Discount Rate'
+		dataType: double
+		formatString: 0.00\ %;-0.00\ %;0.00\ %
+		lineageTag: 4d94d2a4-dd26-4f01-ab16-99ef878f2f2a
+		summarizeBy: average
+		sourceColumn: discount
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Total revenue for this line item calculated as (Unit Price × Quantity × (1 - Discount Rate))
+	column 'Line Revenue' = 'Fact_OrderDetail'[Unit Price]*'Fact_OrderDetail'[Quantity Ordered]*(1-'Fact_OrderDetail'[Discount Rate])
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		lineageTag: bff82dda-3680-43a9-8e35-545e042e9ea3
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	/// The monetary discount savings applied to this product line item
+	column 'Discount Amount' = 'Fact_OrderDetail'[Unit Price]*'Fact_OrderDetail'[Quantity Ordered]*'Fact_OrderDetail'[Discount Rate]
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		lineageTag: 66d9e21a-2754-4914-8050-72e032b46d32
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'order_details LookUp-68396816-5c3e-4e50-bfe5-04a2fa76eee7' = m
+		mode: import
+		source =
+				let
+				    Quelle = Csv.Document(File.Contents("C:\Users\simader\Documents\Jasmin\Data Analytics\Sample Data\Northwind+Traders\Northwind Traders\order_details.csv"),[Delimiter=",", Columns=5, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+				    #"Höher gestufte Header" = Table.PromoteHeaders(Quelle, [PromoteAllScalars=true]),
+				    #"Geänderter Typ" = Table.TransformColumnTypes(#"Höher gestufte Header",{{"orderID", Int64.Type}, {"productID", Int64.Type}, {"unitPrice", type number}, {"quantity", Int64.Type}, {"discount", Percentage.Type}})
+				in
+				    #"Geänderter Typ"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

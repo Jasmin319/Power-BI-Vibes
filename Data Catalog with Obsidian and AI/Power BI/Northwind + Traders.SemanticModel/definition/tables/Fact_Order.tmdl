@@ -1,0 +1,141 @@
+/// Contains all customer orders placed with Northwind Traders, including order dates, required delivery dates, shipped dates, freight costs, and shipping performance metrics. This is the primary fact table for analyzing order volume, sales timing, and fulfillment efficiency.
+table Fact_Order
+	lineageTag: b999d181-150c-408f-bd61-5ff421608dc4
+
+	/// Unique identifier for each customer order placed with Northwind Traders
+	column 'Order ID'
+		dataType: int64
+		formatString: 0
+		lineageTag: 15a89f93-84d3-4e2c-864e-f85ca975b386
+		summarizeBy: none
+		sourceColumn: orderID
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Reference to the customer who placed this order
+	column 'Customer ID'
+		dataType: string
+		isHidden
+		lineageTag: 70316fe0-fc14-4c8c-ba48-254c87ee744a
+		summarizeBy: none
+		sourceColumn: customerID
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Reference to the sales representative who processed this order
+	column 'Employee ID'
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 283d79d5-727f-4dc2-8b45-9bc6f5b15dcb
+		summarizeBy: none
+		sourceColumn: employeeID
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	/// The date when the customer placed the order
+	column 'Order Date'
+		dataType: dateTime
+		isHidden
+		formatString: dd.mm.yyyy
+		lineageTag: 25e58195-0faa-4278-821a-9b6b7d25bb0c
+		summarizeBy: none
+		sourceColumn: orderDate
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+		annotation PBI_FormatHint = {"isDateTimeCustom":true}
+
+	/// The promised delivery date committed to the customer
+	column 'Required Delivery Date'
+		dataType: dateTime
+		formatString: dd.mm.yyyy
+		lineageTag: 21581931-766f-44a6-a1d5-08db38b333e0
+		summarizeBy: none
+		sourceColumn: requiredDate
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+		annotation PBI_FormatHint = {"isDateTimeCustom":true}
+
+	/// The actual date the order was shipped to the customer
+	column 'Shipped Date'
+		dataType: dateTime
+		formatString: dd.mm.yyyy
+		lineageTag: e1ef9271-c4da-487a-a968-f23b007e8e9e
+		summarizeBy: none
+		sourceColumn: shippedDate
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+		annotation PBI_FormatHint = {"isDateTimeCustom":true}
+
+	/// Reference to the shipping company selected for delivery
+	column 'Shipper ID'
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: ae78b197-031f-46e0-908c-410c21a2ce9a
+		summarizeBy: none
+		sourceColumn: shipperID
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	/// The cost charged to the customer for shipping and handling
+	column 'Freight Cost'
+		dataType: double
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		lineageTag: 3ad45d17-deee-4e72-acf7-5c8623c15f42
+		summarizeBy: sum
+		sourceColumn: freight
+
+		annotation SummarizationSetBy = User
+
+	/// Number of days from order date to shipment date
+	column 'Days to Ship' = -DATEDIFF('Fact_Order'[Required Delivery Date],'Fact_Order'[Shipped Date],DAY)
+		formatString: 0
+		lineageTag: 89d1d9b0-5cdb-4473-b815-dfd4aa8605b4
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Number of days the delivery was late compared to the required delivery date (negative if early)
+	column 'Days Late' = IF('Fact_Order'[Days to Ship] < 0,1,0)
+		formatString: 0
+		lineageTag: dc3e26be-69aa-4ec7-8663-584883d1eb5d
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'orders DATA-62d65678-6c00-4ea1-9d66-9a3c82a46932' = m
+		mode: import
+		source =
+				let
+				    Quelle = Csv.Document(File.Contents("C:\Users\simader\Documents\Jasmin\Data Analytics\Sample Data\Northwind+Traders\Northwind Traders\orders.csv"),[Delimiter=",", Columns=8, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+				    #"Höher gestufte Header" = Table.PromoteHeaders(Quelle, [PromoteAllScalars=true]),
+				    #"Geänderter Typ" = Table.TransformColumnTypes(#"Höher gestufte Header",{{"orderID", Int64.Type}, {"customerID", type text}, {"employeeID", Int64.Type}, {"orderDate", type date}, {"requiredDate", type date}, {"shippedDate", type date}, {"shipperID", Int64.Type}, {"freight", type number}}),
+				    #"Sortierte Zeilen" = Table.Sort(#"Geänderter Typ",{{"orderDate", Order.Ascending}}),
+				    #"OrderDatePlus10"= Table.TransformColumns(#"Sortierte Zeilen", {{"orderDate", each Date.AddYears(_, 10), type date}}),
+				    #"RequiredDatePlus10"= Table.TransformColumns(#"OrderDatePlus10", {{"requiredDate", each Date.AddYears(_, 10), type date}}),
+				    #"ShippedDatePlus10"= Table.TransformColumns(#"RequiredDatePlus10", {{"shippedDate", each Date.AddYears(_, 10), type date}})
+				in
+				    #"ShippedDatePlus10"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

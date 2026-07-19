@@ -1,0 +1,38 @@
+/// Logistics partners and shipping companies used for order fulfillment. Enables analysis of shipping performance, costs, and carrier reliability metrics.
+table Dim_Shipper
+	lineageTag: 0e8e4ffb-281b-4b5e-8135-5e145e4fa288
+
+	/// Unique identifier for each shipping/logistics company
+	column 'Shipper ID'
+		dataType: int64
+		isUnique
+		formatString: 0
+		lineageTag: 1fbcc5e9-6c6d-41de-bfee-c5603993427f
+		summarizeBy: none
+		sourceColumn: shipperID
+
+		annotation SummarizationSetBy = Automatic
+
+	/// The official name of the shipping company or logistics provider
+	column 'Company Name'
+		dataType: string
+		lineageTag: 7dd89cc3-8fba-42e5-8ec9-6179b41f8224
+		summarizeBy: none
+		sourceColumn: companyName
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'shippers LookUp-f6a8676e-fe6d-4fb6-89b7-e7e5e2506104' = m
+		mode: import
+		source =
+				let
+				    Quelle = Csv.Document(File.Contents("C:\Users\simader\Documents\Jasmin\Data Analytics\Sample Data\Northwind+Traders\Northwind Traders\shippers.csv"),[Delimiter=",", Columns=2, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+				    #"Höher gestufte Header" = Table.PromoteHeaders(Quelle, [PromoteAllScalars=true]),
+				    #"Geänderter Typ" = Table.TransformColumnTypes(#"Höher gestufte Header",{{"shipperID", Int64.Type}, {"companyName", type text}})
+				in
+				    #"Geänderter Typ"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
