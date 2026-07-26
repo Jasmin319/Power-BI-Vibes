@@ -148,6 +148,20 @@ This project shows how to use the MCP Server to move from manual modeling to a m
 
 ### 🧪 Data Health & Quality
 
+#### Form pbip to Data Catalog with Obsidian and AI
+- Build a searchable, visual data catalog from a Power BI PBIP project
+- Use Obsidian, GitHub Copilot, and AI to generate markdown documentation
+- Connect tables and measures into a reusable knowledge graph
+
+👉 [Open Data Catalog with Obsidian and AI](./Data%20Catalog%20with%20Obsidian%20and%20AI)
+
+#### Standardize Your Data Catalog with OKF and LLM Wiki
+- Standardize an existing data catalog with YAML frontmatter and OKF patterns
+- Improve graph navigation with tags, colors, and structured index files
+- Build a more portable catalog that is easier for teams and AI tools to use
+
+👉 [Open Standardize Your Data Catalog with OKF and LLM Wiki](./Standardize%20your%20Data%20Catalog%20witk%20OKF)
+
 #### Data Health Dashboard (Easter Edition)
 - Identifying missing, inconsistent, and duplicate data  
 - Visualizing data quality issues in Power BI  
