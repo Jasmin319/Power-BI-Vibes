@@ -1,0 +1,86 @@
+/// Complete product catalog with product names, unit prices, package quantities, and category assignments. Products are classified by category to enable multi-level product analysis and inventory tracking.
+table Dim_Product
+	lineageTag: 513130d5-04ec-4f37-af44-1cb2a7d0f732
+
+	/// Unique identifier for each product in the catalog
+	column 'Product ID'
+		dataType: int64
+		isUnique
+		formatString: 0
+		lineageTag: ca237f83-9bc4-4c6a-899d-d4f3ef398122
+		summarizeBy: none
+		sourceColumn: productID
+
+		annotation SummarizationSetBy = Automatic
+
+	/// The commercial name of the product as marketed to customers
+	column 'Product Name'
+		dataType: string
+		lineageTag: 9fc164b2-29de-4d2a-b829-af9bc30d1af6
+		summarizeBy: none
+		sourceColumn: productName
+
+		annotation SummarizationSetBy = Automatic
+
+	/// The quantity and unit type of the product per package or container (e.g., '12 per box')
+	column 'Package Quantity'
+		dataType: string
+		lineageTag: 24b5a12e-fff8-4b99-aa41-7fd8edbbf3c7
+		summarizeBy: none
+		sourceColumn: quantityPerUnit
+
+		annotation SummarizationSetBy = Automatic
+
+	/// The standard selling price per unit of the product
+	column 'Unit Price'
+		dataType: double
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		lineageTag: 0d100427-62ae-4049-9964-ef4ae6c28a0a
+		summarizeBy: average
+		sourceColumn: unitPrice
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Flag indicating product status: 1 = discontinued/no longer offered, 0 = active product
+	column 'Is Discontinued'
+		dataType: int64
+		formatString: 0
+		lineageTag: a54f43f9-aeb6-4a60-9394-04e28bc3a0f1
+		summarizeBy: none
+		sourceColumn: discontinued
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Reference to the product category for hierarchical product analysis
+	column 'Category ID'
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: cd9e4827-9257-4d7b-ae1d-76b39ae85fd0
+		summarizeBy: none
+		sourceColumn: categoryID
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Cancelled = IF('Dim_Product'[Is Discontinued]=1,"X","")
+		lineageTag: b9c452ad-ac06-415f-acb7-a1ece52d3740
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'products LookUp-1cbb31f9-3f75-440a-93ae-cc70c4ba5b6e' = m
+		mode: import
+		source =
+				let
+				    Quelle = Csv.Document(File.Contents("C:\Users\simader\Documents\Jasmin\Data Analytics\Sample Data\Northwind+Traders\Northwind Traders\products.csv"),[Delimiter=",", Columns=6, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+				    #"Höher gestufte Header" = Table.PromoteHeaders(Quelle, [PromoteAllScalars=true]),
+				    #"Geänderter Typ" = Table.TransformColumnTypes(#"Höher gestufte Header",{{"productID", Int64.Type}, {"productName", type text}, {"quantityPerUnit", type text}, {"unitPrice", type number}, {"discontinued", Int64.Type}, {"categoryID", Int64.Type}})
+				in
+				    #"Geänderter Typ"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

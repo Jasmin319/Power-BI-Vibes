@@ -1,0 +1,28 @@
+relationship c5e71425-58dc-4de8-9c05-3ce680e006d2
+	fromColumn: Fact_Order.'Shipper ID'
+	toColumn: Dim_Shipper.'Shipper ID'
+
+relationship 37965526-75c4-45d9-ad4c-9f3b5fd5b6d2
+	fromColumn: Fact_Order.'Customer ID'
+	toColumn: Dim_Customer.'Customer ID'
+
+relationship bb22d6e5-74f7-41fb-b3b8-468b0a67e401
+	fromColumn: Fact_OrderDetail.'Product ID'
+	toColumn: Dim_Product.'Product ID'
+
+relationship bf37cfbd-0d2e-42d0-b7c9-80779fca6b7c
+	fromColumn: Fact_Order.'Employee ID'
+	toColumn: Dim_Employee.'Employee ID'
+
+relationship 32f52871-bd79-4a2b-82e6-9cdd4c3b0e6d
+	fromColumn: Dim_Product.'Category ID'
+	toColumn: Dim_Category.'Category ID'
+
+relationship 'orders DATA_orderDate_Calendar_Date'
+	fromColumn: Fact_Order.'Order Date'
+	toColumn: Dim_Calendar.Date
+
+relationship order_details_orders
+	fromColumn: Fact_OrderDetail.'Order ID'
+	toColumn: Fact_Order.'Order ID'
+

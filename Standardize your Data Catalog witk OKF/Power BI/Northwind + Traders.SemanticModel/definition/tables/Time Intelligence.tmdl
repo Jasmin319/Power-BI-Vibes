@@ -1,0 +1,34 @@
+table 'Time Intelligence'
+	lineageTag: 81570185-5c04-4201-a1a3-2fdb4aedebc7
+
+	/// Calculation group to apply common time intelligence transformations to any selected measure.
+	calculationGroup
+		precedence: 10
+
+		/// Shows the selected measure for the current filter context.
+		calculationItem Current = SELECTEDMEASURE()
+
+		/// Shows the selected measure for the same period in the prior year.
+		calculationItem 'Prior Year' = CALCULATE(SELECTEDMEASURE(), SAMEPERIODLASTYEAR('Dim_Calendar'[Date]))
+
+		/// Shows the year-over-year change for the selected measure.
+		calculationItem YoY = SELECTEDMEASURE() - CALCULATE(SELECTEDMEASURE(), SAMEPERIODLASTYEAR('Dim_Calendar'[Date]))
+
+		/// Shows the year-over-year percent change for the selected measure.
+		calculationItem 'YoY %' = DIVIDE(SELECTEDMEASURE() - CALCULATE(SELECTEDMEASURE(), SAMEPERIODLASTYEAR('Dim_Calendar'[Date])), CALCULATE(SELECTEDMEASURE(), SAMEPERIODLASTYEAR('Dim_Calendar'[Date])))
+
+		/// Shows year-to-date for the selected measure.
+		calculationItem YTD = TOTALYTD(SELECTEDMEASURE(), 'Dim_Calendar'[Date])
+
+		/// Shows quarter-to-date for the selected measure.
+		calculationItem QTD = TOTALQTD(SELECTEDMEASURE(), 'Dim_Calendar'[Date])
+
+		/// Shows month-to-date for the selected measure.
+		calculationItem MTD = TOTALMTD(SELECTEDMEASURE(), 'Dim_Calendar'[Date])
+
+	column 'Time Intelligence'
+		dataType: string
+		lineageTag: 43fb0c60-1da5-4c1d-b61f-7615d087935a
+
+	partition 'Partition_Time Intelligence' = calculationGroup
+

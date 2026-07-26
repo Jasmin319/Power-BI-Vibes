@@ -1,0 +1,89 @@
+/// Contains employee records for sales representatives and operations staff, including name, title, location, and reporting structure. Supports performance analysis by employee and organizational hierarchy tracking.
+table Dim_Employee
+	lineageTag: 4812e149-57cb-454a-865c-4bede550e9a4
+
+	/// Unique identifier for each employee in the organization
+	column 'Employee ID'
+		dataType: int64
+		isUnique
+		formatString: 0
+		lineageTag: 8d2e8e84-b94a-4f02-b16f-4f94eef4c2a8
+		summarizeBy: none
+		sourceColumn: employeeID
+
+		annotation SummarizationSetBy = Automatic
+
+	/// The full name of the employee
+	column 'Employee Name'
+		dataType: string
+		lineageTag: 5d3b1a66-1f0e-4492-983c-14f601e25d96
+		summarizeBy: none
+		sourceColumn: employeeName
+
+		annotation SummarizationSetBy = Automatic
+
+	/// The position or role held by the employee (e.g., Sales Representative, Manager)
+	column 'Job Title'
+		dataType: string
+		lineageTag: 8f271977-a5c5-4970-a447-c21e08182f23
+		summarizeBy: none
+		sourceColumn: title
+
+		annotation SummarizationSetBy = Automatic
+
+	/// The city where the employee is based for business operations
+	column City
+		dataType: string
+		lineageTag: e5366a48-b0cd-4d07-b942-b2913cf9e3ff
+		dataCategory: City
+		summarizeBy: none
+		sourceColumn: city
+
+		annotation SummarizationSetBy = Automatic
+
+	/// The country where the employee is located
+	column Country
+		dataType: string
+		lineageTag: 4a5ae7eb-69e8-4414-918b-a87ba0e9e71b
+		dataCategory: Country
+		summarizeBy: none
+		sourceColumn: country
+
+		annotation SummarizationSetBy = Automatic
+
+	/// Reference to the direct manager/supervisor for this employee in the organizational hierarchy
+	column 'Reports To Employee ID'
+		dataType: int64
+		formatString: 0
+		lineageTag: d781cb02-e2b2-4345-ad44-bed920ff7e05
+		summarizeBy: none
+		sourceColumn: reportsTo
+
+		annotation SummarizationSetBy = Automatic
+
+	/// The surname of the employee
+	column 'Last Name' =
+			
+			Right('Dim_Employee'[Employee Name],
+			LEN('Dim_Employee'[Employee Name])
+			-SEARCH(" ",'Dim_Employee'[Employee Name])
+			)
+		lineageTag: c83ce785-f2be-4475-8f2c-a512e7f8a0fc
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'employees LookUp-d92a8ec5-8f76-4427-a386-f4385d976cdb' = m
+		mode: import
+		source =
+				let
+				    Quelle = Csv.Document(File.Contents("C:\Users\simader\Documents\Jasmin\Data Analytics\Sample Data\Northwind+Traders\Northwind Traders\employees.csv"),[Delimiter=",", Columns=6, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+				    #"Höher gestufte Header" = Table.PromoteHeaders(Quelle, [PromoteAllScalars=true]),
+				    #"Geänderter Typ" = Table.TransformColumnTypes(#"Höher gestufte Header",{{"employeeID", Int64.Type}, {"employeeName", type text}, {"title", type text}, {"city", type text}, {"country", type text}, {"reportsTo", Int64.Type}})
+				in
+				    #"Geänderter Typ"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
