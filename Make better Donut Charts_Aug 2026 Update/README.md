@@ -8,7 +8,7 @@ In this tutorial, you'll learn how to improve donut charts in Power BI to make t
 
 ## Watch the tutorial
 
-YouTube link coming soon.
+[📹Watch the video!](https://youtu.be/IhKNY2STrWM)
 
 ---
 
