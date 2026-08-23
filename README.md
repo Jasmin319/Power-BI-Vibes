@@ -162,6 +162,13 @@ This project shows how to use the MCP Server to move from manual modeling to a m
 
 ### 🎨 Visualization Experiments
 
+#### Make Better Donut Charts
+- Improve donut chart readability and visual design
+- Communicate values and proportions more clearly
+- Create polished visuals that are easier to scan
+
+👉 [Open Make Better Donut Charts](./Make%20better%20Donut%20Charts_Aug%202026%20Update)
+
 #### Experimental Visual Patterns
 - Exploring alternative chart designs  
 - Error bars for comparisons and deltas  
